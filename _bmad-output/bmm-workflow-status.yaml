@@ -1,0 +1,111 @@
+# Workflow Status Template
+
+# This tracks progress through BMM methodology Analysis, Planning, and Solutioning phases.
+# Implementation phase is tracked separately in sprint-status.yaml
+
+# STATUS DEFINITIONS:
+# ==================
+# Initial Status (before completion):
+#   - required: Must be completed to progress
+#   - optional: Can be completed but not required
+#   - recommended: Strongly suggested but not required
+#   - conditional: Required only if certain conditions met (e.g., if_has_ui)
+#
+# Completion Status:
+#   - {file-path}: File created/found (e.g., "docs/product-brief.md")
+#   - skipped: Optional/conditional workflow that was skipped
+
+generated: "2025-12-21"
+project: "Travel Umroh"
+project_type: "greenfield"
+selected_track: "bmad-method"
+field_type: "greenfield"
+workflow_path: "method-greenfield"
+workflow_status:
+  # Phase 0: Discovery (Optional)
+  - phase: 0
+    name: "Discovery (Optional)"
+    workflows:
+      - id: "product-brief"
+        name: "Product Brief"
+        status: "_bmad-output/analysis/product-brief-Travel Umroh-2025-12-21.md"
+        agent: "analyst"
+        command: "/bmad:bmm:workflows:create-product-brief"
+        note: "Strategic product planning - user selected"
+        completed: "2025-12-21"
+
+  # Phase 1: Planning
+  - phase: 1
+    name: "Planning"
+    workflows:
+      - id: "prd"
+        name: "Product Requirements Document"
+        status: "_bmad-output/prd.md"
+        agent: "pm"
+        command: "/bmad:bmm:workflows:create-prd"
+        output: "Product Requirements Document with FRs and NFRs"
+        completed: "2025-12-21"
+
+      - id: "create-ux-design"
+        name: "UX Design"
+        status: "conditional"
+        agent: "ux-designer"
+        command: "/bmad:bmm:workflows:create-ux-design"
+        note: "Determined after PRD - Travel Umroh has UI, will likely be required"
+
+  # Phase 2: Solutioning
+  - phase: 2
+    name: "Solutioning"
+    workflows:
+      - id: "create-architecture"
+        name: "System Architecture"
+        status: "_bmad-output/architecture.md"
+        agent: "architect"
+        command: "/bmad:bmm:workflows:create-architecture"
+        output: "System architecture document"
+        note: "Complete system design for greenfield projects"
+        completed: "2025-12-21"
+
+      - id: "create-epics-and-stories"
+        name: "Epics & Stories"
+        status: "_bmad-output/epics.md"
+        agent: "pm"
+        command: "/bmad:bmm:workflows:create-epics-and-stories"
+        output: "15 epics with 89 detailed user stories"
+        note: "Break down PRD into implementable epics and stories with full context (PRD + UX + Architecture)"
+        completed: "2025-12-22"
+
+      - id: "test-design"
+        name: "Test Design"
+        status: "recommended"
+        agent: "tea"
+        command: "/bmad:bmm:workflows:testarch-test-design"
+        output: "System-level testability review"
+        note: "Testability assessment before gate check"
+
+      - id: "validate-architecture"
+        name: "Validate Architecture"
+        status: "optional"
+        agent: "architect"
+        command: "/bmad:bmm:workflows:validate-architecture"
+        note: "Quality check for architecture completeness"
+
+      - id: "implementation-readiness"
+        name: "Implementation Readiness Check"
+        status: "_bmad-output/implementation-readiness-report-2025-12-22.md"
+        agent: "architect"
+        command: "/bmad:bmm:workflows:check-implementation-readiness"
+        output: "PASS - 0 critical issues, 1 minor gap (UX docs - accepted)"
+        note: "Critical validation - validates PRD + Architecture + Epics + UX (optional)"
+        completed: "2025-12-22"
+
+  # Phase 3: Implementation
+  - phase: 3
+    name: "Implementation"
+    workflows:
+      - id: "sprint-planning"
+        name: "Sprint Planning"
+        status: "required"
+        agent: "sm"
+        command: "/bmad:bmm:workflows:sprint-planning"
+        note: "Creates sprint plan - subsequent work tracked in sprint-status.yaml"

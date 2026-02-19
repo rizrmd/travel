@@ -1,0 +1,3 @@
+nama,email,telepon,alamat,ktp,tanggal_lahir,jenis_kelamin,paket_id,status,catatan
+Ahmad Rizki,ahmad@email.com,081234567890,"Jl. Merdeka No. 123, Jakarta",3175011234567890,1990-05-15,L,uuid-package-1,lead,Calon jamaah potensial
+Siti Aminah,siti@email.com,081234567891,"Jl. Kemerdekaan No. 456, Bandung",3273021234567891,1985-08-22,P,uuid-package-1,interested,Sudah melakukan konsultasi

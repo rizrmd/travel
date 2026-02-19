@@ -1,0 +1,3 @@
+jamaah_id,jumlah,tanggal_bayar,metode_pembayaran,nomor_referensi,catatan
+uuid-jamaah-1,5000000,2025-01-15,transfer_bank,TRX001,DP Paket Umroh 50%
+uuid-jamaah-2,10000000,2025-01-20,transfer_bank,TRX002,Pelunasan Paket Umroh

@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{{meta.title}}</title>
+  <meta name="description" content="{{meta.description}}">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'Helvetica Neue', Arial, sans-serif;
+      line-height: 1.6;
+      color: #333;
+      background: white;
+    }
+    .container { max-width: 800px; margin: 0 auto; padding: 60px 20px; }
+    h1 { font-size: 3rem; font-weight: 300; margin-bottom: 10px; }
+    .subtitle { font-size: 1.2rem; color: #666; margin-bottom: 40px; }
+    .price { font-size: 4rem; font-weight: 100; margin: 40px 0; }
+    .highlight { color: {{colors.primary}}; }
+    a {
+      color: {{colors.primary}};
+      text-decoration: none;
+      border-bottom: 1px solid {{colors.primary}};
+      transition: opacity 0.2s;
+    }
+    a:hover { opacity: 0.7; }
+    .cta {
+      display: inline-block;
+      background: {{colors.primary}};
+      color: white;
+      padding: 15px 30px;
+      border: none;
+      margin: 20px 10px 20px 0;
+      cursor: pointer;
+      border-bottom: none;
+    }
+    .section { margin: 60px 0; padding: 40px 0; border-top: 1px solid #eee; }
+    .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; margin: 30px 0; }
+    input, textarea {
+      width: 100%;
+      padding: 12px;
+      margin-bottom: 15px;
+      border: 1px solid #ddd;
+      font-family: inherit;
+    }
+    @media (max-width: 768px) {
+      h1 { font-size: 2rem; }
+      .price { font-size: 2.5rem; }
+      .grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>{{package.name}}</h1>
+    <p class="subtitle">{{package.description}}</p>
+
+    <div class="price"><span class="highlight">{{formatCurrency package.price}}</span></div>
+
+    <p>{{package.duration}} hari | {{formatDate package.departure_date}}</p>
+
+    <div style="margin: 40px 0;">
+      <a href="{{whatsappUrl agent.whatsapp 'Halo, saya tertarik dengan paket ' package.name}}" class="cta">WhatsApp</a>
+      <a href="#form" class="cta">Daftar</a>
+    </div>
+
+    <div class="section">
+      <h2 style="font-weight: 300; font-size: 2rem;">Detail</h2>
+      <div class="grid">
+        <div>
+          <p><strong>Hotel Makkah</strong></p>
+          <p>{{package.hotel_makkah}}</p>
+        </div>
+        <div>
+          <p><strong>Hotel Madinah</strong></p>
+          <p>{{package.hotel_madinah}}</p>
+        </div>
+      </div>
+
+      <p style="margin-top: 30px;"><strong>Maskapai:</strong> {{package.airline}}</p>
+
+      <div style="margin-top: 30px;">
+        <p><strong>Termasuk:</strong></p>
+        <ul style="margin-left: 20px; margin-top: 10px;">
+          {{#each package.inclusions}}
+          <li>{{this}}</li>
+          {{/each}}
+        </ul>
+      </div>
+    </div>
+
+    <div class="section">
+      <h2 style="font-weight: 300; font-size: 2rem;">Itinerary</h2>
+      {{#each package.itinerary}}
+      <div style="margin: 30px 0;">
+        <p><strong>Hari {{this.day}}</strong> — {{this.title}}</p>
+        <p style="margin-top: 5px; color: #666;">{{this.description}}</p>
+      </div>
+      {{/each}}
+    </div>
+
+    <div id="form" class="section">
+      <h2 style="font-weight: 300; font-size: 2rem;">Daftar</h2>
+      <form action="/api/v1/leads" method="POST" style="margin-top: 30px;">
+        <input type="text" name="full_name" placeholder="Nama" required>
+        <input type="email" name="email" placeholder="Email" required>
+        <input type="tel" name="phone" placeholder="WhatsApp" required>
+        <input type="text" name="preferred_departure_month" placeholder="Bulan keberangkatan (opsional)">
+        <textarea name="message" placeholder="Pesan (opsional)" rows="4"></textarea>
+        <button type="submit" class="cta" style="width: 100%;">Kirim</button>
+      </form>
+    </div>
+
+    <div style="margin-top: 80px; padding-top: 40px; border-top: 1px solid #eee; text-align: center;">
+      <p><strong>{{agent.name}}</strong></p>
+      <p style="margin-top: 10px;">{{agent.phone}} | <a href="mailto:{{agent.email}}">{{agent.email}}</a></p>
+    </div>
+  </div>
+</body>
+</html>

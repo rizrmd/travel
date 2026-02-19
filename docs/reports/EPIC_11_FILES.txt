@@ -1,0 +1,106 @@
+EPIC 11: OPERATIONAL INTELLIGENCE DASHBOARD - FILES CREATED
+================================================================
+
+Total Files Created: 32
+Total Lines of Code: ~5,100
+
+DOMAIN LAYER (4 files)
+----------------------
+src/analytics/domain/revenue-metrics.ts (156 lines)
+src/analytics/domain/revenue-projection.ts (241 lines)
+src/analytics/domain/agent-performance.ts (284 lines)
+src/analytics/domain/pipeline-analytics.ts (352 lines)
+
+INFRASTRUCTURE - ENTITIES (3 files)
+-----------------------------------
+src/analytics/infrastructure/persistence/relational/entities/analytics-event.entity.ts (60 lines)
+src/analytics/infrastructure/persistence/relational/entities/revenue-snapshot.entity.ts (96 lines)
+src/analytics/infrastructure/persistence/relational/entities/filter-preset.entity.ts (77 lines)
+
+DATA TRANSFER OBJECTS - DTOs (12 files)
+---------------------------------------
+src/analytics/dto/revenue-metrics-query.dto.ts (30 lines)
+src/analytics/dto/revenue-metrics-response.dto.ts (87 lines)
+src/analytics/dto/revenue-projection-query.dto.ts (72 lines)
+src/analytics/dto/revenue-projection-response.dto.ts (57 lines)
+src/analytics/dto/pipeline-analytics-query.dto.ts (50 lines)
+src/analytics/dto/pipeline-analytics-response.dto.ts (206 lines)
+src/analytics/dto/agent-performance-query.dto.ts (30 lines)
+src/analytics/dto/agent-performance-response.dto.ts (62 lines)
+src/analytics/dto/leaderboard-query.dto.ts (27 lines)
+src/analytics/dto/leaderboard-response.dto.ts (48 lines)
+src/analytics/dto/filter-preset.dto.ts (145 lines)
+src/analytics/dto/dashboard-summary-response.dto.ts (40 lines)
+
+SERVICES (7 files)
+------------------
+src/analytics/services/revenue-metrics.service.ts (368 lines)
+src/analytics/services/revenue-projection.service.ts (147 lines)
+src/analytics/services/pipeline-analytics.service.ts (180 lines)
+src/analytics/services/agent-performance.service.ts (171 lines)
+src/analytics/services/leaderboard.service.ts (180 lines)
+src/analytics/services/analytics-event.service.ts (125 lines)
+src/analytics/services/filter-preset.service.ts (150 lines)
+
+CONTROLLERS (2 files)
+---------------------
+src/analytics/analytics.controller.ts (389 lines)
+src/analytics/filter-presets.controller.ts (121 lines)
+
+BACKGROUND JOBS (2 files)
+-------------------------
+src/analytics/jobs/daily-snapshot.processor.ts (265 lines)
+src/analytics/jobs/leaderboard-update.processor.ts (135 lines)
+
+DATABASE MIGRATION (1 file)
+---------------------------
+src/database/migrations/1734950000000-CreateAnalyticsTables.ts (412 lines)
+
+MODULE CONFIGURATION (1 file)
+-----------------------------
+src/analytics/analytics.module.ts (80 lines)
+
+DOCUMENTATION (3 files)
+-----------------------
+EPIC_11_FILES.txt (this file)
+EPIC_11_SUMMARY.md
+docs/analytics/calculations.md
+
+================================================================
+
+FILE STRUCTURE SUMMARY:
+- Domain Models: 4 files (business logic & calculations)
+- Infrastructure Entities: 3 files (database tables with RLS)
+- DTOs: 12 files (API request/response schemas)
+- Services: 7 files (business logic implementation)
+- Controllers: 2 files (14 REST API endpoints)
+- Background Jobs: 2 files (cron-based processors)
+- Migration: 1 file (database schema)
+- Module: 1 file (NestJS module configuration)
+
+TOTAL ENDPOINTS: 14
+- GET  /api/v1/analytics/revenue/metrics
+- GET  /api/v1/analytics/revenue/projection
+- GET  /api/v1/analytics/revenue/trend
+- GET  /api/v1/analytics/pipeline
+- GET  /api/v1/analytics/pipeline/funnel
+- GET  /api/v1/analytics/pipeline/kanban
+- GET  /api/v1/analytics/agents/:id/performance
+- GET  /api/v1/analytics/leaderboard
+- GET  /api/v1/analytics/dashboard
+- POST /api/v1/analytics/events
+- GET  /api/v1/analytics/export/:type
+- POST /api/v1/analytics/filters/presets
+- GET  /api/v1/analytics/filters/presets
+- GET  /api/v1/analytics/filters/presets/:id
+- PATCH /api/v1/analytics/filters/presets/:id
+- DELETE /api/v1/analytics/filters/presets/:id
+
+DATABASE TABLES: 3
+- analytics_events (with RLS)
+- revenue_snapshots (with RLS)
+- filter_presets (with RLS)
+
+BACKGROUND JOBS: 2
+- Daily Revenue Snapshot (runs at midnight)
+- Leaderboard Cache Update (runs every hour)

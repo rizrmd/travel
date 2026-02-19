@@ -1,0 +1,1015 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Travel Umroh - UX Design Directions</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@600;700;800&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', system-ui, sans-serif;
+            background: #F8FAFC;
+            color: #334155;
+            line-height: 1.75;
+        }
+
+        /* Navigation */
+        .nav {
+            background: white;
+            border-bottom: 1px solid #E2E8F0;
+            padding: 1rem 2rem;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
+        }
+
+        .nav-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav h1 {
+            font-family: 'Poppins', sans-serif;
+            font-size: 24px;
+            font-weight: 700;
+            color: #0F172A;
+        }
+
+        .nav-tabs {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .nav-tab {
+            padding: 0.5rem 1rem;
+            border: none;
+            background: transparent;
+            color: #64748B;
+            font-weight: 500;
+            cursor: pointer;
+            border-radius: 8px;
+            transition: all 0.2s;
+        }
+
+        .nav-tab.active {
+            background: #2563EB;
+            color: white;
+        }
+
+        .nav-tab:hover:not(.active) {
+            background: #F1F5F9;
+        }
+
+        /* Main Content */
+        .container {
+            max-width: 1400px;
+            margin: 2rem auto;
+            padding: 0 2rem;
+        }
+
+        .direction-section {
+            display: none;
+            animation: fadeIn 0.3s ease-in;
+        }
+
+        .direction-section.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .direction-header {
+            margin-bottom: 2rem;
+        }
+
+        .direction-header h2 {
+            font-family: 'Poppins', sans-serif;
+            font-size: 36px;
+            font-weight: 700;
+            color: #0F172A;
+            margin-bottom: 0.5rem;
+        }
+
+        .direction-header p {
+            font-size: 18px;
+            color: #64748B;
+        }
+
+        .mockup {
+            background: white;
+            border-radius: 16px;
+            border: 1px solid #E2E8F0;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
+        }
+
+        /* Dashboard Components */
+        .dashboard-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid #E2E8F0;
+        }
+
+        .dashboard-header h3 {
+            font-family: 'Poppins', sans-serif;
+            font-size: 24px;
+            font-weight: 700;
+            color: #0F172A;
+        }
+
+        .status-summary {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+            font-size: 14px;
+        }
+
+        .status-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        .status-badge.urgent {
+            background: #FEE2E2;
+            color: #B91C1C;
+        }
+
+        .status-badge.soon {
+            background: #FEF3C7;
+            color: #B45309;
+        }
+
+        .status-badge.ready {
+            background: #D1FAE5;
+            color: #047857;
+        }
+
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+        }
+
+        .status-dot.urgent { background: #EF4444; }
+        .status-dot.soon { background: #F59E0B; }
+        .status-dot.ready { background: #10B981; }
+
+        /* Direction 1: Card-Based */
+        .card-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1rem;
+        }
+
+        .jamaah-card {
+            background: white;
+            border: 2px solid #E2E8F0;
+            border-radius: 12px;
+            padding: 1rem;
+            transition: all 0.2s;
+            cursor: pointer;
+        }
+
+        .jamaah-card:hover {
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            transform: translateY(-2px);
+        }
+
+        .jamaah-card.urgent { border-color: #EF4444; }
+        .jamaah-card.soon { border-color: #F59E0B; }
+        .jamaah-card.ready { border-color: #10B981; }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: start;
+            margin-bottom: 0.75rem;
+        }
+
+        .card-name {
+            font-weight: 600;
+            font-size: 16px;
+            color: #0F172A;
+        }
+
+        .card-info {
+            font-size: 14px;
+            color: #64748B;
+            margin-bottom: 0.5rem;
+        }
+
+        .card-status {
+            margin-top: 0.75rem;
+            padding-top: 0.75rem;
+            border-top: 1px solid #E2E8F0;
+        }
+
+        .card-actions {
+            display: flex;
+            gap: 0.5rem;
+            margin-top: 0.75rem;
+        }
+
+        .btn {
+            padding: 0.5rem 1rem;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .btn-primary {
+            background: #2563EB;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #1E40AF;
+        }
+
+        .btn-whatsapp {
+            background: #25D366;
+            color: white;
+        }
+
+        .btn-whatsapp:hover {
+            background: #20BA5A;
+        }
+
+        .btn-outline {
+            background: transparent;
+            border: 1px solid #E2E8F0;
+            color: #64748B;
+        }
+
+        .btn-outline:hover {
+            background: #F1F5F9;
+        }
+
+        /* Direction 2: Table */
+        .table-container {
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
+        }
+
+        thead {
+            background: #F8FAFC;
+            border-bottom: 2px solid #E2E8F0;
+        }
+
+        th {
+            padding: 0.75rem 1rem;
+            text-align: left;
+            font-weight: 600;
+            font-size: 14px;
+            color: #334155;
+        }
+
+        td {
+            padding: 0.75rem 1rem;
+            border-bottom: 1px solid #E2E8F0;
+            font-size: 14px;
+        }
+
+        tr:hover {
+            background: #F8FAFC;
+        }
+
+        .checkbox {
+            width: 20px;
+            height: 20px;
+            cursor: pointer;
+        }
+
+        /* Direction 3: Hybrid */
+        .kpi-cards {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .kpi-card {
+            background: linear-gradient(135deg, #2563EB 0%, #1E40AF 100%);
+            border-radius: 12px;
+            padding: 1.5rem;
+            color: white;
+        }
+
+        .kpi-card.amber {
+            background: linear-gradient(135deg, #F59E0B 0%, #D97706 100%);
+        }
+
+        .kpi-card.green {
+            background: linear-gradient(135deg, #10B981 0%, #059669 100%);
+        }
+
+        .kpi-label {
+            font-size: 14px;
+            opacity: 0.9;
+            margin-bottom: 0.5rem;
+        }
+
+        .kpi-value {
+            font-family: 'Poppins', sans-serif;
+            font-size: 48px;
+            font-weight: 700;
+            line-height: 1;
+        }
+
+        /* Filters */
+        .filters {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .filter-btn {
+            padding: 0.5rem 1rem;
+            border: 1px solid #E2E8F0;
+            background: white;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .filter-btn:hover {
+            background: #F1F5F9;
+        }
+
+        .filter-btn.active {
+            background: #2563EB;
+            color: white;
+            border-color: #2563EB;
+        }
+
+        /* Bulk Actions Bar */
+        .bulk-actions {
+            position: fixed;
+            bottom: 2rem;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #0F172A;
+            color: white;
+            padding: 1rem 2rem;
+            border-radius: 12px;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.3);
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            animation: slideUp 0.3s ease-out;
+        }
+
+        @keyframes slideUp {
+            from { transform: translateX(-50%) translateY(100px); opacity: 0; }
+            to { transform: translateX(-50%) translateY(0); opacity: 1; }
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .kpi-cards {
+                grid-template-columns: 1fr;
+            }
+
+            .card-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .nav-tabs {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+        }
+
+        /* Comparison Mode */
+        .comparison-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .comparison-item {
+            background: white;
+            border-radius: 12px;
+            padding: 1.5rem;
+            border: 2px solid #E2E8F0;
+        }
+
+        .comparison-item h4 {
+            font-family: 'Poppins', sans-serif;
+            margin-bottom: 1rem;
+            color: #0F172A;
+        }
+
+        /* Pros/Cons */
+        .pros-cons {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .pros, .cons {
+            background: white;
+            border-radius: 12px;
+            padding: 1.5rem;
+        }
+
+        .pros {
+            border-left: 4px solid #10B981;
+        }
+
+        .cons {
+            border-left: 4px solid #EF4444;
+        }
+
+        .pros h4 {
+            color: #059669;
+            margin-bottom: 1rem;
+        }
+
+        .cons h4 {
+            color: #DC2626;
+            margin-bottom: 1rem;
+        }
+
+        .pros-cons ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .pros-cons li {
+            padding: 0.5rem 0;
+            padding-left: 1.5rem;
+            position: relative;
+        }
+
+        .pros li:before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            color: #10B981;
+            font-weight: 700;
+        }
+
+        .cons li:before {
+            content: "✗";
+            position: absolute;
+            left: 0;
+            color: #EF4444;
+            font-weight: 700;
+        }
+    </style>
+</head>
+<body>
+    <nav class="nav">
+        <div class="nav-content">
+            <h1>🕌 Travel Umroh - Design Directions</h1>
+            <div class="nav-tabs">
+                <button class="nav-tab active" onclick="showDirection(1)">Direction 1: Visual Cards</button>
+                <button class="nav-tab" onclick="showDirection(2)">Direction 2: Data Table</button>
+                <button class="nav-tab" onclick="showDirection(3)">Direction 3: Hybrid</button>
+                <button class="nav-tab" onclick="showDirection(4)">Comparison</button>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container">
+        <!-- Direction 1: Card-Based Visual Dashboard -->
+        <div class="direction-section active" id="direction-1">
+            <div class="direction-header">
+                <h2>Direction 1: Visual Card Dashboard</h2>
+                <p>Spacious, visual-first approach prioritizing clarity and simplicity for Bu Ratna</p>
+            </div>
+
+            <div class="mockup">
+                <div class="dashboard-header">
+                    <h3>📊 Jamaah Saya (25 total)</h3>
+                    <div class="status-summary">
+                        <span class="status-badge urgent">
+                            <span class="status-dot urgent"></span>
+                            5 Dokumen Kurang
+                        </span>
+                        <span class="status-badge soon">
+                            <span class="status-dot soon"></span>
+                            3 Cicilan Due
+                        </span>
+                        <span class="status-badge ready">
+                            <span class="status-dot ready"></span>
+                            17 Ready
+                        </span>
+                    </div>
+                </div>
+
+                <div class="filters">
+                    <button class="filter-btn active">Semua (25)</button>
+                    <button class="filter-btn">🔴 Merah Saja (5)</button>
+                    <button class="filter-btn">🟡 Kuning Saja (3)</button>
+                    <button class="filter-btn">🟢 Hijau Saja (17)</button>
+                </div>
+
+                <div class="card-grid">
+                    <!-- Card 1: Urgent -->
+                    <div class="jamaah-card urgent">
+                        <div class="card-header">
+                            <div class="card-name">Ibu Siti Aminah</div>
+                            <input type="checkbox" class="checkbox">
+                        </div>
+                        <div class="card-info">📱 0812-3456-7890</div>
+                        <div class="card-info">📦 Umroh 9 Hari - March 2025</div>
+                        <div class="card-status">
+                            <span class="status-badge urgent">
+                                <span class="status-dot urgent"></span>
+                                Dokumen Kurang
+                            </span>
+                            <div style="font-size: 12px; color: #64748B; margin-top: 0.5rem;">
+                                Kurang: KTP, Foto 4×6
+                            </div>
+                        </div>
+                        <div class="card-actions">
+                            <button class="btn btn-whatsapp">💬 WhatsApp</button>
+                            <button class="btn btn-outline">Detail</button>
+                        </div>
+                    </div>
+
+                    <!-- Card 2: Soon -->
+                    <div class="jamaah-card soon">
+                        <div class="card-header">
+                            <div class="card-name">Pak Ahmad Hidayat</div>
+                            <input type="checkbox" class="checkbox">
+                        </div>
+                        <div class="card-info">📱 0813-9876-5432</div>
+                        <div class="card-info">📦 Umroh 12 Hari - April 2025</div>
+                        <div class="card-status">
+                            <span class="status-badge soon">
+                                <span class="status-dot soon"></span>
+                                Cicilan Due
+                            </span>
+                            <div style="font-size: 12px; color: #64748B; margin-top: 0.5rem;">
+                                Cicilan 2: Rp 5 juta (jatuh tempo 28 Des)
+                            </div>
+                        </div>
+                        <div class="card-actions">
+                            <button class="btn btn-whatsapp">💬 WhatsApp</button>
+                            <button class="btn btn-outline">Detail</button>
+                        </div>
+                    </div>
+
+                    <!-- Card 3: Ready -->
+                    <div class="jamaah-card ready">
+                        <div class="card-header">
+                            <div class="card-name">Bu Ratna Wijaya</div>
+                            <input type="checkbox" class="checkbox">
+                        </div>
+                        <div class="card-info">📱 0815-2468-1357</div>
+                        <div class="card-info">📦 Umroh 9 Hari - March 2025</div>
+                        <div class="card-status">
+                            <span class="status-badge ready">
+                                <span class="status-dot ready"></span>
+                                Ready to Depart
+                            </span>
+                            <div style="font-size: 12px; color: #64748B; margin-top: 0.5rem;">
+                                Semua lengkap ✓ Keberangkatan 15 Mar
+                            </div>
+                        </div>
+                        <div class="card-actions">
+                            <button class="btn btn-whatsapp">💬 WhatsApp</button>
+                            <button class="btn btn-outline">Detail</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bulk-actions">
+                    <span style="font-weight: 600;">3 jamaah dipilih</span>
+                    <button class="btn btn-primary">📤 Kirim Reminder Bulk</button>
+                    <button class="btn btn-outline" style="color: white; border-color: #475569;">Batal</button>
+                </div>
+            </div>
+
+            <div class="pros-cons">
+                <div class="pros">
+                    <h4>✅ Strengths</h4>
+                    <ul>
+                        <li>Visual clarity - status immediately obvious via card borders</li>
+                        <li>Low cognitive load - each card is self-contained unit</li>
+                        <li>Perfect for Bu Ratna (60 years) - large, clear, simple</li>
+                        <li>Mobile-friendly - cards stack nicely on small screens</li>
+                        <li>Touch-friendly - large tap targets for selection</li>
+                        <li>Scannable - quick visual sweep shows all urgent jamaah</li>
+                    </ul>
+                </div>
+                <div class="cons">
+                    <h4>⚠️ Considerations</h4>
+                    <ul>
+                        <li>Screen space - shows fewer jamaah at once (need scrolling)</li>
+                        <li>Less data density - power users may prefer table view</li>
+                        <li>Sorting limited - filtering works but sorting less obvious</li>
+                        <li>Desktop space - could feel wasteful on large screens</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Direction 2: Data Table -->
+        <div class="direction-section" id="direction-2">
+            <div class="direction-header">
+                <h2>Direction 2: Data-Dense Table</h2>
+                <p>Efficient, compact table view optimized for power users and desktop workflows</p>
+            </div>
+
+            <div class="mockup">
+                <div class="dashboard-header">
+                    <h3>📊 Jamaah Saya (25 total)</h3>
+                    <div class="status-summary">
+                        <span class="status-badge urgent">5 Urgent</span>
+                        <span class="status-badge soon">3 Soon</span>
+                        <span class="status-badge ready">17 Ready</span>
+                    </div>
+                </div>
+
+                <div class="filters">
+                    <button class="filter-btn active">Semua</button>
+                    <button class="filter-btn">Dokumen Kurang</button>
+                    <button class="filter-btn">Cicilan Due</button>
+                    <button class="filter-btn">Ready</button>
+                    <button class="filter-btn">March 2025</button>
+                </div>
+
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th><input type="checkbox" class="checkbox"></th>
+                                <th>Status</th>
+                                <th>Nama Jamaah</th>
+                                <th>Telepon</th>
+                                <th>Paket</th>
+                                <th>Keberangkatan</th>
+                                <th>Detail Status</th>
+                                <th>Aksi</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><input type="checkbox" class="checkbox"></td>
+                                <td><span class="status-badge urgent">🔴 Urgent</span></td>
+                                <td style="font-weight: 600;">Ibu Siti Aminah</td>
+                                <td>0812-3456-7890</td>
+                                <td>Umroh 9 Hari</td>
+                                <td>15 Mar 2025</td>
+                                <td style="font-size: 12px; color: #64748B;">Kurang: KTP, Foto</td>
+                                <td>
+                                    <button class="btn btn-whatsapp" style="font-size: 12px; padding: 0.25rem 0.75rem;">💬 WA</button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><input type="checkbox" class="checkbox"></td>
+                                <td><span class="status-badge soon">🟡 Soon</span></td>
+                                <td style="font-weight: 600;">Pak Ahmad Hidayat</td>
+                                <td>0813-9876-5432</td>
+                                <td>Umroh 12 Hari</td>
+                                <td>20 Apr 2025</td>
+                                <td style="font-size: 12px; color: #64748B;">Cicilan 2: Rp 5M (28 Des)</td>
+                                <td>
+                                    <button class="btn btn-whatsapp" style="font-size: 12px; padding: 0.25rem 0.75rem;">💬 WA</button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><input type="checkbox" class="checkbox"></td>
+                                <td><span class="status-badge ready">🟢 Ready</span></td>
+                                <td style="font-weight: 600;">Bu Ratna Wijaya</td>
+                                <td>0815-2468-1357</td>
+                                <td>Umroh 9 Hari</td>
+                                <td>15 Mar 2025</td>
+                                <td style="font-size: 12px; color: #047857;">Semua lengkap ✓</td>
+                                <td>
+                                    <button class="btn btn-whatsapp" style="font-size: 12px; padding: 0.25rem 0.75rem;">💬 WA</button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><input type="checkbox" class="checkbox"></td>
+                                <td><span class="status-badge urgent">🔴 Urgent</span></td>
+                                <td style="font-weight: 600;">Pak Budi Santoso</td>
+                                <td>0821-1122-3344</td>
+                                <td>Umroh 9 Hari</td>
+                                <td>15 Mar 2025</td>
+                                <td style="font-size: 12px; color: #64748B;">Kurang: Passport</td>
+                                <td>
+                                    <button class="btn btn-whatsapp" style="font-size: 12px; padding: 0.25rem 0.75rem;">💬 WA</button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><input type="checkbox" class="checkbox"></td>
+                                <td><span class="status-badge ready">🟢 Ready</span></td>
+                                <td style="font-weight: 600;">Ibu Ani Susanti</td>
+                                <td>0822-5566-7788</td>
+                                <td>Umroh 12 Hari</td>
+                                <td>20 Apr 2025</td>
+                                <td style="font-size: 12px; color: #047857;">Semua lengkap ✓</td>
+                                <td>
+                                    <button class="btn btn-whatsapp" style="font-size: 12px; padding: 0.25rem 0.75rem;">💬 WA</button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div style="margin-top: 1rem; padding-top: 1rem; border-top: 1px solid #E2E8F0; display: flex; justify-content: between; align-items: center; font-size: 14px; color: #64748B;">
+                    <div>5 dari 25 jamaah dipilih</div>
+                    <div>
+                        <button class="btn btn-outline" style="font-size: 14px;">← Sebelumnya</button>
+                        <button class="btn btn-outline" style="font-size: 14px; margin-left: 0.5rem;">Selanjutnya →</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pros-cons">
+                <div class="pros">
+                    <h4>✅ Strengths</h4>
+                    <ul>
+                        <li>Maximum data density - see many jamaah at once</li>
+                        <li>Efficient scanning - power users can process quickly</li>
+                        <li>Sortable columns - click headers to sort by any field</li>
+                        <li>Familiar pattern - everyone knows how tables work</li>
+                        <li>Desktop optimized - uses horizontal space effectively</li>
+                        <li>Keyboard navigation - arrow keys, Enter to select</li>
+                    </ul>
+                </div>
+                <div class="cons">
+                    <h4>⚠️ Considerations</h4>
+                    <ul>
+                        <li>Overwhelming for Bu Ratna - too much information density</li>
+                        <li>Mobile unfriendly - horizontal scroll required</li>
+                        <li>Visual clarity reduced - status less prominent than cards</li>
+                        <li>Touch targets small - harder to tap on mobile</li>
+                        <li>Less approachable - feels like "work spreadsheet"</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Direction 3: Hybrid Dashboard + Table -->
+        <div class="direction-section" id="direction-3">
+            <div class="direction-header">
+                <h2>Direction 3: Hybrid Dashboard</h2>
+                <p>Best of both worlds - visual KPI cards at top, efficient table below</p>
+            </div>
+
+            <div class="mockup">
+                <div class="dashboard-header">
+                    <h3>Selamat Pagi, Ibu Siti! 👋</h3>
+                    <div style="font-size: 14px; color: #64748B;">Selasa, 24 Desember 2025</div>
+                </div>
+
+                <div class="kpi-cards">
+                    <div class="kpi-card" style="background: linear-gradient(135deg, #EF4444 0%, #DC2626 100%);">
+                        <div class="kpi-label">Dokumen Kurang</div>
+                        <div class="kpi-value">5</div>
+                        <div style="font-size: 12px; margin-top: 0.5rem; opacity: 0.9;">Butuh follow up hari ini</div>
+                    </div>
+                    <div class="kpi-card amber">
+                        <div class="kpi-label">Cicilan Due Minggu Ini</div>
+                        <div class="kpi-value">3</div>
+                        <div style="font-size: 12px; margin-top: 0.5rem; opacity: 0.9;">Total: Rp 15 juta</div>
+                    </div>
+                    <div class="kpi-card green">
+                        <div class="kpi-label">Ready to Depart</div>
+                        <div class="kpi-value">17</div>
+                        <div style="font-size: 12px; margin-top: 0.5rem; opacity: 0.9;">Semua lengkap ✓</div>
+                    </div>
+                </div>
+
+                <div style="margin-bottom: 1.5rem;">
+                    <h4 style="font-family: 'Poppins', sans-serif; font-size: 18px; margin-bottom: 1rem;">Jamaah Yang Butuh Perhatian (8 urgent + soon)</h4>
+                    <div class="filters">
+                        <button class="filter-btn active">Semua (8)</button>
+                        <button class="filter-btn">🔴 Urgent (5)</button>
+                        <button class="filter-btn">🟡 Soon (3)</button>
+                    </div>
+                </div>
+
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th><input type="checkbox" class="checkbox"></th>
+                                <th>Status</th>
+                                <th>Nama</th>
+                                <th>Masalah</th>
+                                <th>Deadline</th>
+                                <th>Aksi Cepat</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><input type="checkbox" class="checkbox"></td>
+                                <td><span class="status-badge urgent">🔴</span></td>
+                                <td style="font-weight: 600;">Ibu Siti Aminah</td>
+                                <td>Kurang: KTP, Foto 4×6</td>
+                                <td style="color: #EF4444; font-weight: 600;">25 Des (besok)</td>
+                                <td>
+                                    <button class="btn btn-whatsapp" style="font-size: 12px; padding: 0.25rem 0.75rem;">Reminder</button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><input type="checkbox" class="checkbox"></td>
+                                <td><span class="status-badge soon">🟡</span></td>
+                                <td style="font-weight: 600;">Pak Ahmad Hidayat</td>
+                                <td>Cicilan 2: Rp 5 juta</td>
+                                <td style="color: #F59E0B; font-weight: 600;">28 Des</td>
+                                <td>
+                                    <button class="btn btn-whatsapp" style="font-size: 12px; padding: 0.25rem 0.75rem;">Reminder</button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><input type="checkbox" class="checkbox"></td>
+                                <td><span class="status-badge urgent">🔴</span></td>
+                                <td style="font-weight: 600;">Pak Budi Santoso</td>
+                                <td>Kurang: Passport expired</td>
+                                <td style="color: #EF4444; font-weight: 600;">26 Des</td>
+                                <td>
+                                    <button class="btn btn-whatsapp" style="font-size: 12px; padding: 0.25rem 0.75rem;">Reminder</button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div style="margin-top: 2rem; padding: 1.5rem; background: #F0F9FF; border-radius: 12px; border-left: 4px solid #0EA5E9;">
+                    <div style="font-weight: 600; color: #0284C7; margin-bottom: 0.5rem;">💡 Saran Hari Ini</div>
+                    <div style="font-size: 14px; color: #334155;">
+                        Morning routine biasanya 2 jam. Dengan bulk reminder ke 5 jamaah merah, Anda bisa selesai dalam <strong>15 menit</strong>!
+                        Sisanya waktu untuk sales calls. 🚀
+                    </div>
+                </div>
+            </div>
+
+            <div class="pros-cons">
+                <div class="pros">
+                    <h4>✅ Strengths</h4>
+                    <ul>
+                        <li>Visual KPI cards provide instant status awareness</li>
+                        <li>Table below offers efficient data scanning</li>
+                        <li>Balanced approach - clarity + density</li>
+                        <li>Greeting personalizes experience ("Selamat Pagi, Ibu Siti!")</li>
+                        <li>Smart filtering - shows only urgent/soon by default</li>
+                        <li>Actionable - "Saran Hari Ini" guides next steps</li>
+                        <li>Works for both Bu Ratna (KPI cards) and Mbak Rina (table)</li>
+                    </ul>
+                </div>
+                <div class="cons">
+                    <h4>⚠️ Considerations</h4>
+                    <ul>
+                        <li>Longer page - requires scrolling to see full table</li>
+                        <li>Complexity - two different interaction patterns</li>
+                        <li>Mobile - KPI cards stack vertically (takes vertical space)</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Comparison View -->
+        <div class="direction-section" id="direction-4">
+            <div class="direction-header">
+                <h2>Design Direction Comparison</h2>
+                <p>Side-by-side evaluation to help choose the best approach for Travel Umroh</p>
+            </div>
+
+            <div class="comparison-grid">
+                <div class="comparison-item">
+                    <h4>🎯 Direction 1: Visual Cards</h4>
+                    <p><strong>Best For:</strong> Bu Ratna (low tech-savvy), mobile-first agents, visual clarity priority</p>
+                    <p><strong>Trade-off:</strong> Uses more screen space, lower data density</p>
+                    <p><strong>Emotional Impact:</strong> "Oh, ini SIMPLE!" - reduces intimidation</p>
+                    <p><strong>Use Case:</strong> Simplified mode, mobile dashboard, first-time users</p>
+                </div>
+
+                <div class="comparison-item">
+                    <h4>📊 Direction 2: Data Table</h4>
+                    <p><strong>Best For:</strong> Mbak Rina (power user), desktop workflows, efficiency priority</p>
+                    <p><strong>Trade-off:</strong> Overwhelming for struggling users, mobile unfriendly</p>
+                    <p><strong>Emotional Impact:</strong> Professional, efficient, "I can process quickly"</p>
+                    <p><strong>Use Case:</strong> Admin document queue, owner reports, advanced mode</p>
+                </div>
+
+                <div class="comparison-item">
+                    <h4>🎨 Direction 3: Hybrid</h4>
+                    <p><strong>Best For:</strong> Standard agents (Ibu Siti), balanced users, desktop primary</p>
+                    <p><strong>Trade-off:</strong> Slightly more complex, longer page</p>
+                    <p><strong>Emotional Impact:</strong> "I see everything I need" - comprehensive + clear</p>
+                    <p><strong>Use Case:</strong> Default agent dashboard, standard mode</p>
+                </div>
+
+                <div class="comparison-item" style="background: #F0F9FF; border-color: #0EA5E9;">
+                    <h4>💡 Recommendation</h4>
+                    <p><strong>Hybrid Approach with Adaptive Complexity:</strong></p>
+                    <ul style="margin-left: 1.5rem; margin-top: 0.5rem; font-size: 14px; line-height: 1.75;">
+                        <li><strong>Bu Ratna Mode:</strong> Direction 1 (cards only, large, spacious)</li>
+                        <li><strong>Standard Mode:</strong> Direction 3 (hybrid KPI + table)</li>
+                        <li><strong>Power User Mode:</strong> Direction 2 (data-dense table)</li>
+                        <li><strong>Mobile:</strong> Direction 1 (cards stack vertically)</li>
+                    </ul>
+                    <p style="margin-top: 1rem; font-size: 14px;">This satisfies all personas while maintaining single codebase via responsive design + user preference setting.</p>
+                </div>
+            </div>
+
+            <div style="margin-top: 2rem; padding: 2rem; background: white; border-radius: 12px; border: 2px solid #2563EB;">
+                <h3 style="font-family: 'Poppins', sans-serif; color: #0F172A; margin-bottom: 1rem;">Decision Framework</h3>
+
+                <div style="margin-bottom: 1.5rem;">
+                    <h4 style="color: #2563EB; margin-bottom: 0.5rem;">1. Who is your PRIMARY user?</h4>
+                    <ul style="margin-left: 1.5rem; font-size: 14px; line-height: 1.75; color: #334155;">
+                        <li>If <strong>Bu Ratna (struggling users)</strong> → Choose Direction 1 (Visual Cards)</li>
+                        <li>If <strong>Ibu Siti (standard agents)</strong> → Choose Direction 3 (Hybrid)</li>
+                        <li>If <strong>Mbak Rina (power users)</strong> → Choose Direction 2 (Data Table)</li>
+                    </ul>
+                </div>
+
+                <div style="margin-bottom: 1.5rem;">
+                    <h4 style="color: #2563EB; margin-bottom: 0.5rem;">2. What's your PRIMARY device?</h4>
+                    <ul style="margin-left: 1.5rem; font-size: 14px; line-height: 1.75; color: #334155;">
+                        <li>If <strong>Mobile-first (60% agents)</strong> → Direction 1 or 3</li>
+                        <li>If <strong>Desktop primary</strong> → Direction 2 or 3</li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h4 style="color: #2563EB; margin-bottom: 0.5rem;">3. What's your CORE value proposition?</h4>
+                    <ul style="margin-left: 1.5rem; font-size: 14px; line-height: 1.75; color: #334155;">
+                        <li>If <strong>"Simple enough for Bu Ratna"</strong> → Direction 1</li>
+                        <li>If <strong>"Efficient for power users"</strong> → Direction 2</li>
+                        <li>If <strong>"Balanced for everyone"</strong> → Direction 3</li>
+                    </ul>
+                </div>
+
+                <div style="margin-top: 2rem; padding: 1.5rem; background: #FFFBEB; border-radius: 8px;">
+                    <div style="font-weight: 700; color: #92400E; margin-bottom: 0.5rem;">🎯 Based on Travel Umroh's PRD:</div>
+                    <div style="font-size: 14px; color: #334155;">
+                        PRIMARY user = <strong>Ibu Siti (standard agent)</strong> with Bu Ratna as critical edge case.<br>
+                        PRIMARY device = <strong>Mobile + Desktop</strong> (responsive).<br>
+                        CORE value = <strong>"Simple enough for Bu Ratna, efficient enough for Ibu Siti"</strong>
+                    </div>
+                    <div style="margin-top: 1rem; padding: 1rem; background: white; border-radius: 8px; border-left: 4px solid #F59E0B;">
+                        <strong>Recommendation:</strong> Direction 3 (Hybrid) as default, with Direction 1 (Cards) as "Simplified Mode" toggle for Bu Ratna.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function showDirection(num) {
+            // Hide all sections
+            document.querySelectorAll('.direction-section').forEach(section => {
+                section.classList.remove('active');
+            });
+
+            // Remove active from all tabs
+            document.querySelectorAll('.nav-tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+
+            // Show selected section and activate tab
+            document.getElementById('direction-' + num).classList.add('active');
+            document.querySelectorAll('.nav-tab')[num - 1].classList.add('active');
+
+            // Scroll to top
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+    </script>
+</body>
+</html>

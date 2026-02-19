@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Akad Wakalah Bil Ujrah - {{contractNumber}}</title>
+    <style>
+        body { font-family: 'Times New Roman', serif; line-height: 1.6; margin: 40px; }
+        h1 { text-align: center; font-size: 18px; margin-bottom: 5px; }
+        h2 { text-align: center; font-size: 14px; margin-top: 0; margin-bottom: 30px; }
+        h3 { font-size: 12px; margin-top: 20px; margin-bottom: 10px; text-decoration: underline; }
+        p { text-align: justify; margin: 10px 0; font-size: 11px; }
+        table { width: 100%; border-collapse: collapse; margin: 15px 0; }
+        table td { padding: 5px; vertical-align: top; font-size: 11px; }
+        .signature-table { margin-top: 40px; }
+        .signature-table td { text-align: center; padding: 80px 20px 0 20px; }
+        .header { text-align: center; margin-bottom: 30px; }
+        .clause { margin: 15px 0; }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ</h1>
+        <h1>AKAD WAKALAH BIL UJRAH</h1>
+        <h1>PENYELENGGARAAN IBADAH UMROH</h1>
+        <h2>Nomor: {{contractNumber}}</h2>
+    </div>
+
+    <p>Pada hari ini, {{contractDate}}, yang bertanda tangan di bawah ini:</p>
+
+    <h3>PIHAK PERTAMA (MUWAKKIL / JAMAAH)</h3>
+    <table>
+        <tr><td width="150">Nama</td><td>: {{jamaahName}}</td></tr>
+        <tr><td>No. KTP</td><td>: {{jamaahKtp}}</td></tr>
+        <tr><td>Alamat</td><td>: {{jamaahAddress}}</td></tr>
+        <tr><td>No. Telepon</td><td>: {{jamaahPhone}}</td></tr>
+        {{#if jamaahEmail}}
+        <tr><td>Email</td><td>: {{jamaahEmail}}</td></tr>
+        {{/if}}
+    </table>
+
+    <p>Selanjutnya disebut sebagai <strong>PIHAK PERTAMA / MUWAKKIL</strong></p>
+
+    <h3>PIHAK KEDUA (WAKIL / PENYELENGGARA)</h3>
+    <table>
+        <tr><td width="150">Nama Perusahaan</td><td>: {{agencyName}}</td></tr>
+        <tr><td>NPWP</td><td>: {{agencyNpwp}}</td></tr>
+        <tr><td>Alamat</td><td>: {{agencyAddress}}</td></tr>
+        <tr><td>No. Telepon</td><td>: {{agencyPhone}}</td></tr>
+        <tr><td>Diwakili oleh</td><td>: {{agentName}}</td></tr>
+    </table>
+
+    <p>Selanjutnya disebut sebagai <strong>PIHAK KEDUA / WAKIL</strong></p>
+
+    <p>PIHAK PERTAMA dan PIHAK KEDUA secara bersama-sama disebut <strong>PARA PIHAK</strong>.</p>
+
+    <div class="clause">
+        <h3>PASAL 1 - OBJEK AKAD</h3>
+        <p>1.1. PIHAK PERTAMA memberikan kuasa (wakalah) kepada PIHAK KEDUA untuk mengurus dan menyelenggarakan ibadah Umroh dengan rincian sebagai berikut:</p>
+        <table>
+            <tr><td width="200">Nama Paket</td><td>: {{packageName}} (Paket Standard)</td></tr>
+            <tr><td>Tanggal Keberangkatan</td><td>: {{departureDate}}</td></tr>
+            <tr><td>Tanggal Kepulangan</td><td>: {{returnDate}}</td></tr>
+            <tr><td>Durasi</td><td>: {{duration}} hari</td></tr>
+            <tr><td>Maskapai</td><td>: {{airline}} (Kelas {{flightClass}})</td></tr>
+            <tr><td>Hotel Makkah</td><td>: {{makkahHotel}}</td></tr>
+            <tr><td>Hotel Madinah</td><td>: {{madinahHotel}}</td></tr>
+        </table>
+
+        <p>1.2. Total biaya penyelenggaraan Umroh: <strong>{{totalAmount}}</strong></p>
+        <p>1.3. Ujrah (biaya jasa pengurusan): <strong>{{serviceFee}}</strong> (sudah termasuk dalam total biaya)</p>
+    </div>
+
+    <div class="clause">
+        <h3>PASAL 2 - FASILITAS YANG TERMASUK</h3>
+        <p>Paket Umroh ini mencakup:</p>
+        {{#each inclusions}}
+        <p>{{@index}}. {{this}}</p>
+        {{/each}}
+    </div>
+
+    <div class="clause">
+        <h3>PASAL 3 - YANG TIDAK TERMASUK</h3>
+        <p>Paket Umroh ini TIDAK mencakup:</p>
+        {{#each exclusions}}
+        <p>{{@index}}. {{this}}</p>
+        {{/each}}
+    </div>
+
+    <div class="clause">
+        <h3>PASAL 4 - KEWAJIBAN PIHAK KEDUA (WAKIL)</h3>
+        <p>4.1. Mengurus seluruh keperluan ibadah Umroh sesuai dengan paket yang telah disepakati.</p>
+        <p>4.2. Menyediakan pembimbing ibadah yang berkompeten.</p>
+        <p>4.3. Memastikan ketersediaan akomodasi dan transportasi sesuai spesifikasi paket.</p>
+        <p>4.4. Memberikan laporan dan informasi terkait pengurusan secara berkala.</p>
+        <p>4.5. Mengembalikan sisa dana jika terdapat selisih biaya aktual dengan yang dibayarkan.</p>
+    </div>
+
+    <div class="clause">
+        <h3>PASAL 5 - KEWAJIBAN PIHAK PERTAMA (MUWAKKIL)</h3>
+        <p>5.1. Melunasi pembayaran sesuai jadwal yang telah disepakati.</p>
+        <p>5.2. Menyerahkan dokumen yang diperlukan secara lengkap dan benar.</p>
+        <p>5.3. Mengikuti aturan dan tata tertib yang ditetapkan PIHAK KEDUA.</p>
+        <p>5.4. Menjaga kesehatan dan kelengkapan dokumen perjalanan.</p>
+    </div>
+
+    <div class="clause">
+        <h3>PASAL 6 - PEMBAYARAN</h3>
+        <p>6.1. Total biaya penyelenggaraan Umroh: <strong>{{totalAmount}}</strong></p>
+        <p>6.2. Uang muka (DP): <strong>{{depositAmount}}</strong></p>
+        <p>6.3. Sisa pembayaran: <strong>{{remainingAmount}}</strong></p>
+        <p>6.4. Jadwal pembayaran cicilan:</p>
+        <table>
+            <tr>
+                <td><strong>Cicilan Ke-</strong></td>
+                <td><strong>Jatuh Tempo</strong></td>
+                <td><strong>Jumlah</strong></td>
+            </tr>
+            {{#each paymentSchedule}}
+            <tr>
+                <td>{{this.installmentNumber}}</td>
+                <td>{{this.dueDate}}</td>
+                <td>{{this.amount}}</td>
+            </tr>
+            {{/each}}
+        </table>
+    </div>
+
+    <div class="clause">
+        <h3>PASAL 7 - PEMBATALAN</h3>
+        <p>7.1. Pembatalan oleh PIHAK PERTAMA akan dikenakan biaya sesuai ketentuan yang berlaku.</p>
+        <p>7.2. Jika pembatalan terjadi karena Force Majeure, akan diselesaikan secara musyawarah.</p>
+    </div>
+
+    <div class="clause">
+        <h3>PASAL 8 - FORCE MAJEURE</h3>
+        <p>8.1. Force Majeure adalah kejadian di luar kendali PARA PIHAK seperti bencana alam, perang, wabah penyakit, atau kebijakan pemerintah.</p>
+        <p>8.2. Dalam hal Force Majeure, PARA PIHAK tidak dapat dituntut atas kelalaian atau wanprestasi.</p>
+    </div>
+
+    <div class="clause">
+        <h3>PASAL 9 - PENYELESAIAN SENGKETA</h3>
+        <p>9.1. Segala perselisihan akan diselesaikan secara musyawarah mufakat.</p>
+        <p>9.2. Jika musyawarah tidak tercapai, akan diselesaikan melalui Badan Arbitrase Syariah Nasional (BASYARNAS).</p>
+    </div>
+
+    <div class="clause">
+        <h3>PASAL 10 - PENUTUP</h3>
+        <p>10.1. Akad ini dibuat dalam keadaan sadar, tanpa paksaan, dan untuk kepentingan PARA PIHAK.</p>
+        <p>10.2. Akad ini dibuat rangkap 2 (dua), masing-masing bermeterai cukup dan memiliki kekuatan hukum yang sama.</p>
+    </div>
+
+    <table class="signature-table">
+        <tr>
+            <td>
+                <p><strong>PIHAK PERTAMA</strong></p>
+                <p><strong>(MUWAKKIL)</strong></p>
+                <br><br><br>
+                <p>_____________________</p>
+                <p>{{jamaahName}}</p>
+            </td>
+            <td>
+                <p><strong>PIHAK KEDUA</strong></p>
+                <p><strong>(WAKIL)</strong></p>
+                <br><br><br>
+                <p>_____________________</p>
+                <p>{{agentName}}</p>
+                <p>{{agencyName}}</p>
+            </td>
+        </tr>
+    </table>
+</body>
+</html>

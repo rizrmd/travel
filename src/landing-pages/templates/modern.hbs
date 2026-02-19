@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{{meta.title}}</title>
+  <meta name="description" content="{{meta.description}}">
+
+  <!-- Open Graph / Facebook -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="{{meta.url}}">
+  <meta property="og:title" content="{{meta.title}}">
+  <meta property="og:description" content="{{meta.description}}">
+  {{#if meta.og_image}}
+  <meta property="og:image" content="{{meta.og_image}}">
+  {{/if}}
+
+  <!-- Twitter -->
+  <meta property="twitter:card" content="summary_large_image">
+  <meta property="twitter:url" content="{{meta.url}}">
+  <meta property="twitter:title" content="{{meta.title}}">
+  <meta property="twitter:description" content="{{meta.description}}">
+
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+      line-height: 1.6;
+      color: #333;
+    }
+
+    .hero {
+      background: linear-gradient(135deg, {{colors.primary}} 0%, {{colors.secondary}} 100%);
+      color: white;
+      padding: 80px 20px;
+      text-align: center;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+
+    h1 { font-size: 3rem; margin-bottom: 20px; font-weight: 700; }
+    h2 { font-size: 2rem; margin-bottom: 16px; color: {{colors.primary}}; }
+    h3 { font-size: 1.5rem; margin-bottom: 12px; }
+
+    .price {
+      font-size: 3.5rem;
+      font-weight: 800;
+      color: {{colors.accent}};
+      margin: 30px 0;
+    }
+
+    .cta-button {
+      display: inline-block;
+      background: {{colors.accent}};
+      color: white;
+      padding: 18px 40px;
+      text-decoration: none;
+      border-radius: 50px;
+      font-size: 1.2rem;
+      font-weight: 600;
+      margin: 20px 10px;
+      transition: transform 0.2s;
+    }
+
+    .cta-button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+    }
+
+    .section {
+      padding: 60px 20px;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 30px;
+      margin-top: 40px;
+    }
+
+    .card {
+      background: white;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    }
+
+    .itinerary-day {
+      border-left: 4px solid {{colors.primary}};
+      padding-left: 20px;
+      margin-bottom: 30px;
+    }
+
+    .agent-card {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      background: #f8f9fa;
+      padding: 30px;
+      border-radius: 12px;
+      margin-top: 40px;
+    }
+
+    .agent-photo {
+      width: 120px;
+      height: 120px;
+      border-radius: 50%;
+      object-fit: cover;
+    }
+
+    .social-links {
+      display: flex;
+      gap: 15px;
+      margin-top: 15px;
+    }
+
+    .social-icon {
+      width: 40px;
+      height: 40px;
+      background: {{colors.primary}};
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      text-decoration: none;
+    }
+
+    footer {
+      background: #2c3e50;
+      color: white;
+      text-align: center;
+      padding: 30px;
+    }
+
+    @media (max-width: 768px) {
+      h1 { font-size: 2rem; }
+      .price { font-size: 2.5rem; }
+      .grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <!-- Hero Section -->
+  <section class="hero">
+    <div class="container">
+      {{#if agent.logo}}
+      <img src="{{agent.logo}}" alt="{{agent.name}}" style="max-height: 80px; margin-bottom: 20px;">
+      {{/if}}
+
+      <h1>🕋 {{package.name}}</h1>
+      <p style="font-size: 1.3rem; margin-bottom: 10px;">{{package.description}}</p>
+      <p style="font-size: 1.1rem; opacity: 0.9;">{{package.duration}} Hari | {{package.airline}} | {{formatDate package.departure_date}}</p>
+
+      <div class="price">{{formatCurrency package.price}}</div>
+
+      <a href="{{whatsappUrl agent.whatsapp 'Assalamu\'alaikum, saya tertarik dengan paket ' package.name}}"
+         class="cta-button" style="background: #25D366;">
+        💬 Hubungi via WhatsApp
+      </a>
+
+      <a href="#lead-form" class="cta-button">
+        📝 Daftar Sekarang
+      </a>
+    </div>
+  </section>
+
+  <!-- Package Details -->
+  <section class="section">
+    <div class="container">
+      <h2>📦 Detail Paket</h2>
+
+      <div class="grid">
+        <div class="card">
+          <h3>🏨 Hotel Makkah</h3>
+          <p>{{package.hotel_makkah}}</p>
+        </div>
+
+        <div class="card">
+          <h3>🏨 Hotel Madinah</h3>
+          <p>{{package.hotel_madinah}}</p>
+        </div>
+
+        <div class="card">
+          <h3>✈️ Maskapai</h3>
+          <p>{{package.airline}}</p>
+        </div>
+      </div>
+
+      <h3 style="margin-top: 50px;">✅ Fasilitas Termasuk:</h3>
+      <ul style="margin-left: 20px; margin-top: 15px;">
+        {{#each package.inclusions}}
+        <li style="margin-bottom: 8px;">{{this}}</li>
+        {{/each}}
+      </ul>
+    </div>
+  </section>
+
+  <!-- Itinerary -->
+  <section class="section" style="background: #f8f9fa;">
+    <div class="container">
+      <h2>🗓️ Itinerary Perjalanan</h2>
+
+      <div style="margin-top: 40px;">
+        {{#each package.itinerary}}
+        <div class="itinerary-day">
+          <h3>Hari {{this.day}}: {{this.title}}</h3>
+          <p>{{this.description}}</p>
+        </div>
+        {{/each}}
+      </div>
+    </div>
+  </section>
+
+  <!-- Agent Info -->
+  <section class="section">
+    <div class="container">
+      <h2>👤 Tentang Agen Anda</h2>
+
+      <div class="agent-card">
+        {{#if agent.photo}}
+        <img src="{{agent.photo}}" alt="{{agent.name}}" class="agent-photo">
+        {{/if}}
+
+        <div>
+          <h3>{{agent.name}}</h3>
+          {{#if agent.tagline}}
+          <p style="font-style: italic; color: #666;">{{agent.tagline}}</p>
+          {{/if}}
+
+          {{#if agent.intro_text}}
+          <p style="margin-top: 15px;">{{agent.intro_text}}</p>
+          {{/if}}
+
+          <p style="margin-top: 15px;">
+            📞 {{agent.phone}}<br>
+            📧 {{agent.email}}<br>
+            💬 {{agent.whatsapp}}
+          </p>
+
+          <div class="social-links">
+            {{#if agent.social_media.facebook}}
+            <a href="{{agent.social_media.facebook}}" class="social-icon" target="_blank">FB</a>
+            {{/if}}
+            {{#if agent.social_media.instagram}}
+            <a href="{{agent.social_media.instagram}}" class="social-icon" target="_blank">IG</a>
+            {{/if}}
+            {{#if agent.social_media.tiktok}}
+            <a href="{{agent.social_media.tiktok}}" class="social-icon" target="_blank">TT</a>
+            {{/if}}
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Lead Capture Form -->
+  <section class="section" id="lead-form" style="background: linear-gradient(135deg, {{colors.primary}} 0%, {{colors.secondary}} 100%); color: white;">
+    <div class="container">
+      <h2 style="color: white; text-align: center;">📝 Daftar Sekarang!</h2>
+      <p style="text-align: center; margin-bottom: 40px;">Isi form di bawah untuk mendapatkan informasi lebih lanjut</p>
+
+      <form action="/api/v1/leads" method="POST" style="max-width: 600px; margin: 0 auto;">
+        <input type="hidden" name="landing_page_id" value="{{landing_page_id}}">
+        <input type="hidden" name="utm_source" value="{{utm.source}}">
+        <input type="hidden" name="utm_medium" value="{{utm.medium}}">
+        <input type="hidden" name="utm_campaign" value="{{utm.campaign}}">
+
+        <div style="margin-bottom: 20px;">
+          <input type="text" name="full_name" placeholder="Nama Lengkap *" required
+                 style="width: 100%; padding: 15px; border-radius: 8px; border: none; font-size: 1rem;">
+        </div>
+
+        <div style="margin-bottom: 20px;">
+          <input type="email" name="email" placeholder="Email *" required
+                 style="width: 100%; padding: 15px; border-radius: 8px; border: none; font-size: 1rem;">
+        </div>
+
+        <div style="margin-bottom: 20px;">
+          <input type="tel" name="phone" placeholder="Nomor WhatsApp *" required
+                 style="width: 100%; padding: 15px; border-radius: 8px; border: none; font-size: 1rem;">
+        </div>
+
+        <div style="margin-bottom: 20px;">
+          <input type="text" name="preferred_departure_month" placeholder="Bulan Keberangkatan (opsional)"
+                 style="width: 100%; padding: 15px; border-radius: 8px; border: none; font-size: 1rem;">
+        </div>
+
+        <div style="margin-bottom: 20px;">
+          <textarea name="message" placeholder="Pesan (opsional)" rows="4"
+                    style="width: 100%; padding: 15px; border-radius: 8px; border: none; font-size: 1rem;"></textarea>
+        </div>
+
+        <button type="submit" class="cta-button" style="width: 100%; background: {{colors.accent}};">
+          Kirim Pendaftaran
+        </button>
+      </form>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <p>&copy; {{agent.name}} | Powered by Travel Umroh Platform</p>
+    <p style="margin-top: 10px; font-size: 0.9rem;">
+      <a href="/privacy" style="color: white; margin: 0 10px;">Privacy Policy</a> |
+      <a href="/terms" style="color: white; margin: 0 10px;">Terms of Service</a>
+    </p>
+  </footer>
+
+  <!-- Analytics (if needed) -->
+  <script>
+    // Track page view
+    if (typeof gtag !== 'undefined') {
+      gtag('event', 'page_view', {
+        page_title: '{{meta.title}}',
+        page_location: '{{meta.url}}'
+      });
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,1512 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Production Pipeline Management - Interactive Demo</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: #f8f9fa;
+            color: #212529;
+        }
+
+        .demo-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .demo-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px;
+            border-radius: 12px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        .demo-header h1 {
+            font-size: 32px;
+            margin-bottom: 8px;
+        }
+
+        .demo-header p {
+            font-size: 16px;
+            opacity: 0.9;
+        }
+
+        .tabs {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 20px;
+            border-bottom: 2px solid #e9ecef;
+            padding-bottom: 0;
+        }
+
+        .tab {
+            padding: 12px 24px;
+            background: transparent;
+            border: none;
+            border-bottom: 3px solid transparent;
+            cursor: pointer;
+            font-size: 15px;
+            font-weight: 500;
+            color: #6c757d;
+            transition: all 0.2s;
+        }
+
+        .tab:hover {
+            color: #495057;
+            background: #f8f9fa;
+        }
+
+        .tab.active {
+            color: #667eea;
+            border-bottom-color: #667eea;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+            animation: fadeIn 0.3s;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .card {
+            background: white;
+            border-radius: 8px;
+            padding: 24px;
+            margin-bottom: 20px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 16px;
+            border-bottom: 1px solid #e9ecef;
+        }
+
+        .card-title {
+            font-size: 20px;
+            font-weight: 600;
+            color: #212529;
+        }
+
+        .grid {
+            display: grid;
+            gap: 20px;
+        }
+
+        .grid-3 { grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); }
+        .grid-4 { grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); }
+        .grid-5 { grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); }
+
+        /* Stage Overview Cards */
+        .stage-card {
+            background: white;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.08);
+            cursor: pointer;
+            transition: all 0.2s;
+            border-left: 4px solid;
+        }
+
+        .stage-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
+
+        .stage-card.blue { border-left-color: #3b82f6; }
+        .stage-card.purple { border-left-color: #8b5cf6; }
+        .stage-card.orange { border-left-color: #f97316; }
+        .stage-card.teal { border-left-color: #14b8a6; }
+        .stage-card.sky { border-left-color: #0ea5e9; }
+
+        .stage-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            margin-bottom: 12px;
+        }
+
+        .stage-icon.blue { background: #dbeafe; color: #1e40af; }
+        .stage-icon.purple { background: #ede9fe; color: #6d28d9; }
+        .stage-icon.orange { background: #ffedd5; color: #c2410c; }
+        .stage-icon.teal { background: #ccfbf1; color: #0f766e; }
+        .stage-icon.sky { background: #e0f2fe; color: #0369a1; }
+
+        .stage-name {
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: #374151;
+        }
+
+        .stage-total {
+            font-size: 32px;
+            font-weight: 700;
+            color: #111827;
+            margin-bottom: 12px;
+        }
+
+        .stage-stats {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .stat-badge {
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-size: 13px;
+            font-weight: 500;
+        }
+
+        .stat-badge.green {
+            background: #dcfce7;
+            color: #15803d;
+        }
+
+        .stat-badge.yellow {
+            background: #fef3c7;
+            color: #a16207;
+        }
+
+        .stat-badge.red {
+            background: #fee2e2;
+            color: #b91c1c;
+        }
+
+        /* Bottleneck Alerts */
+        .alert {
+            padding: 16px 20px;
+            border-radius: 8px;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: start;
+            gap: 12px;
+        }
+
+        .alert.warning {
+            background: #fef3c7;
+            border-left: 4px solid #f59e0b;
+        }
+
+        .alert.error {
+            background: #fee2e2;
+            border-left: 4px solid #ef4444;
+        }
+
+        .alert-icon {
+            font-size: 24px;
+            flex-shrink: 0;
+        }
+
+        .alert-content {
+            flex: 1;
+        }
+
+        .alert-title {
+            font-weight: 600;
+            margin-bottom: 4px;
+            color: #374151;
+        }
+
+        .alert-description {
+            font-size: 14px;
+            color: #6b7280;
+        }
+
+        /* Kanban Board */
+        .kanban-board {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 16px;
+        }
+
+        .kanban-column {
+            background: #f9fafb;
+            border-radius: 8px;
+            padding: 16px;
+            min-height: 400px;
+        }
+
+        .kanban-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 16px;
+        }
+
+        .kanban-title {
+            font-weight: 600;
+            font-size: 15px;
+            color: #374151;
+        }
+
+        .kanban-count {
+            background: #6366f1;
+            color: white;
+            padding: 2px 8px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .jamaah-card {
+            background: white;
+            border-radius: 6px;
+            padding: 12px;
+            margin-bottom: 8px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .jamaah-card:hover {
+            box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+            transform: translateY(-1px);
+        }
+
+        .jamaah-name {
+            font-weight: 600;
+            font-size: 14px;
+            margin-bottom: 4px;
+            color: #111827;
+        }
+
+        .jamaah-meta {
+            font-size: 12px;
+            color: #6b7280;
+            margin-bottom: 8px;
+        }
+
+        .jamaah-issue {
+            font-size: 13px;
+            color: #ef4444;
+            background: #fee2e2;
+            padding: 4px 8px;
+            border-radius: 4px;
+            margin-bottom: 8px;
+        }
+
+        .jamaah-days {
+            font-size: 12px;
+            font-weight: 600;
+            color: #ef4444;
+        }
+
+        .jamaah-actions {
+            display: flex;
+            gap: 4px;
+            margin-top: 8px;
+        }
+
+        .btn-sm {
+            padding: 4px 8px;
+            border: 1px solid #d1d5db;
+            background: white;
+            border-radius: 4px;
+            font-size: 11px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .btn-sm:hover {
+            background: #f3f4f6;
+        }
+
+        /* Pipeline Builder */
+        .builder-container {
+            display: grid;
+            grid-template-columns: 2fr 3fr;
+            gap: 20px;
+        }
+
+        .available-stages, .active-pipeline {
+            background: white;
+            border-radius: 8px;
+            padding: 20px;
+        }
+
+        .available-stages {
+            border: 2px dashed #d1d5db;
+        }
+
+        .section-title {
+            font-weight: 600;
+            margin-bottom: 16px;
+            color: #374151;
+        }
+
+        .stage-item {
+            padding: 12px;
+            background: #f9fafb;
+            border: 1px solid #e5e7eb;
+            border-radius: 6px;
+            margin-bottom: 8px;
+            cursor: move;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            transition: all 0.2s;
+        }
+
+        .stage-item:hover {
+            background: #f3f4f6;
+            border-color: #6366f1;
+        }
+
+        .stage-item-icon {
+            font-size: 20px;
+        }
+
+        .stage-item-info {
+            flex: 1;
+        }
+
+        .stage-item-name {
+            font-weight: 500;
+            font-size: 14px;
+            color: #111827;
+        }
+
+        .stage-item-meta {
+            font-size: 12px;
+            color: #6b7280;
+        }
+
+        .pipeline-stage {
+            background: white;
+            border: 1px solid #e5e7eb;
+            border-radius: 6px;
+            padding: 16px;
+            margin-bottom: 12px;
+        }
+
+        .pipeline-stage-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 12px;
+        }
+
+        .stage-number {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: #3b82f6;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        .pipeline-stage-name {
+            flex: 1;
+            font-weight: 600;
+            color: #111827;
+        }
+
+        .pipeline-stage-actions {
+            display: flex;
+            gap: 4px;
+        }
+
+        .icon-btn {
+            width: 28px;
+            height: 28px;
+            border: none;
+            background: #f3f4f6;
+            border-radius: 4px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
+        }
+
+        .icon-btn:hover {
+            background: #e5e7eb;
+        }
+
+        .stage-config {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            font-size: 13px;
+        }
+
+        .config-item {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .config-label {
+            font-size: 11px;
+            color: #6b7280;
+            font-weight: 500;
+        }
+
+        .config-input {
+            padding: 6px 8px;
+            border: 1px solid #d1d5db;
+            border-radius: 4px;
+            font-size: 13px;
+        }
+
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: white;
+            border-radius: 12px;
+            width: 90%;
+            max-width: 900px;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: 0 20px 25px -5px rgba(0,0,0,0.1);
+        }
+
+        .modal-header {
+            padding: 24px;
+            border-bottom: 1px solid #e5e7eb;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .modal-title {
+            font-size: 20px;
+            font-weight: 600;
+            color: #111827;
+        }
+
+        .modal-close {
+            width: 32px;
+            height: 32px;
+            border: none;
+            background: #f3f4f6;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 18px;
+        }
+
+        .modal-body {
+            padding: 24px;
+        }
+
+        /* Pipeline Timeline */
+        .pipeline-timeline {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            overflow-x: auto;
+            padding: 20px 0;
+            margin-bottom: 24px;
+        }
+
+        .timeline-stage {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-width: 120px;
+        }
+
+        .timeline-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            margin-bottom: 8px;
+        }
+
+        .timeline-icon.completed {
+            background: #10b981;
+            color: white;
+        }
+
+        .timeline-icon.current {
+            background: #3b82f6;
+            color: white;
+        }
+
+        .timeline-icon.pending {
+            background: #e5e7eb;
+            color: #9ca3af;
+        }
+
+        .timeline-name {
+            font-size: 12px;
+            text-align: center;
+            color: #6b7280;
+        }
+
+        .timeline-connector {
+            width: 40px;
+            height: 2px;
+            background: #e5e7eb;
+        }
+
+        .timeline-connector.completed {
+            background: #10b981;
+        }
+
+        /* Info Grid */
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 16px;
+            margin-top: 16px;
+        }
+
+        .info-item {
+            padding: 12px;
+            background: #f9fafb;
+            border-radius: 6px;
+        }
+
+        .info-label {
+            font-size: 12px;
+            color: #6b7280;
+            margin-bottom: 4px;
+        }
+
+        .info-value {
+            font-size: 14px;
+            font-weight: 600;
+            color: #111827;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .badge-green {
+            background: #dcfce7;
+            color: #15803d;
+        }
+
+        .badge-blue {
+            background: #dbeafe;
+            color: #1e40af;
+        }
+
+        .badge-red {
+            background: #fee2e2;
+            color: #b91c1c;
+        }
+
+        .badge-yellow {
+            background: #fef3c7;
+            color: #a16207;
+        }
+
+        /* Buttons */
+        .btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .btn-primary {
+            background: #3b82f6;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #2563eb;
+        }
+
+        .btn-outline {
+            background: white;
+            color: #6b7280;
+            border: 1px solid #d1d5db;
+        }
+
+        .btn-outline:hover {
+            background: #f9fafb;
+        }
+
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .kanban-board {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            .builder-container {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .kanban-board {
+                grid-template-columns: 1fr;
+            }
+            .grid-3, .grid-4, .grid-5 {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="demo-container">
+        <!-- Header -->
+        <div class="demo-header">
+            <h1>🏭 Production Pipeline Management</h1>
+            <p>Interactive Demo - Customizable Multi-Stage Workflow System</p>
+        </div>
+
+        <!-- Tabs -->
+        <div class="tabs">
+            <button class="tab active" onclick="switchTab('overview')">
+                📊 Manager Overview
+            </button>
+            <button class="tab" onclick="switchTab('builder')">
+                🔧 Pipeline Builder
+            </button>
+            <button class="tab" onclick="switchTab('tasks')">
+                📋 Admin Task Queue
+            </button>
+            <button class="tab" onclick="switchTab('detail')">
+                👤 Jamaah Detail
+            </button>
+        </div>
+
+        <!-- Tab 1: Manager Overview -->
+        <div id="overview" class="tab-content active">
+            <!-- Stage Overview Cards -->
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="card-title">Pipeline Stage Overview</h2>
+                </div>
+                <div class="grid grid-5">
+                    <div class="stage-card blue">
+                        <div class="stage-icon blue">📄</div>
+                        <div class="stage-name">Dokumen</div>
+                        <div class="stage-total">35</div>
+                        <div class="stage-stats">
+                            <span class="stat-badge green">22 on-track</span>
+                            <span class="stat-badge yellow">8 at-risk</span>
+                            <span class="stat-badge red">5 delayed</span>
+                        </div>
+                    </div>
+
+                    <div class="stage-card purple">
+                        <div class="stage-icon purple">🏛️</div>
+                        <div class="stage-name">SISKOPATUH</div>
+                        <div class="stage-total">28</div>
+                        <div class="stage-stats">
+                            <span class="stat-badge green">25 on-track</span>
+                            <span class="stat-badge yellow">2 at-risk</span>
+                            <span class="stat-badge red">1 delayed</span>
+                        </div>
+                    </div>
+
+                    <div class="stage-card orange">
+                        <div class="stage-icon orange">📜</div>
+                        <div class="stage-name">Visa</div>
+                        <div class="stage-total">42</div>
+                        <div class="stage-stats">
+                            <span class="stat-badge green">30 on-track</span>
+                            <span class="stat-badge yellow">7 at-risk</span>
+                            <span class="stat-badge red">5 delayed</span>
+                        </div>
+                    </div>
+
+                    <div class="stage-card teal">
+                        <div class="stage-icon teal">👔</div>
+                        <div class="stage-name">Logistik</div>
+                        <div class="stage-total">18</div>
+                        <div class="stage-stats">
+                            <span class="stat-badge green">15 on-track</span>
+                            <span class="stat-badge yellow">2 at-risk</span>
+                            <span class="stat-badge red">1 delayed</span>
+                        </div>
+                    </div>
+
+                    <div class="stage-card sky">
+                        <div class="stage-icon sky">✈️</div>
+                        <div class="stage-name">Travel</div>
+                        <div class="stage-total">25</div>
+                        <div class="stage-stats">
+                            <span class="stat-badge green">20 on-track</span>
+                            <span class="stat-badge yellow">3 at-risk</span>
+                            <span class="stat-badge red">2 delayed</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Bottleneck Alerts -->
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="card-title">⚠️ Bottleneck Terdeteksi</h2>
+                </div>
+                <div class="alert error">
+                    <span class="alert-icon">🚨</span>
+                    <div class="alert-content">
+                        <div class="alert-title">Visa Processing - Bottleneck Critical</div>
+                        <div class="alert-description">
+                            12 jamaah tertahan di stage ini, rata-rata delay 5.2 hari.
+                            Penyebab utama: Dokumen passport kurang jelas (80% kasus).
+                            Assigned to: Andi (Visa Admin)
+                        </div>
+                    </div>
+                    <button class="btn btn-outline">Detail</button>
+                </div>
+
+                <div class="alert warning">
+                    <span class="alert-icon">⚠️</span>
+                    <div class="alert-content">
+                        <div class="alert-title">SISKOPATUH Submission - Delay Moderat</div>
+                        <div class="alert-description">
+                            5 jamaah delay 2.8 hari. Penyebab: Server SISKOPATUH down intermittent.
+                            Assigned to: Budi (SISKOPATUH Admin)
+                        </div>
+                    </div>
+                    <button class="btn btn-outline">Detail</button>
+                </div>
+            </div>
+
+            <!-- Upcoming Departures -->
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="card-title">✈️ Keberangkatan 7 Hari Ke Depan</h2>
+                </div>
+                <div class="grid grid-3">
+                    <div class="card" style="background: #fef3c7; border-left: 4px solid #f59e0b;">
+                        <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 12px;">
+                            <div>
+                                <div style="font-weight: 600; font-size: 16px; margin-bottom: 4px;">28 Des 2024</div>
+                                <div style="font-size: 14px; color: #6b7280;">Rombongan Ibu Siti - Umroh Reguler</div>
+                            </div>
+                            <span class="badge badge-yellow">3 hari lagi</span>
+                        </div>
+                        <div style="display: flex; gap: 8px;">
+                            <span class="badge badge-green">38 ready</span>
+                            <span class="badge badge-yellow">5 at-risk</span>
+                            <span class="badge badge-red">2 blocked</span>
+                        </div>
+                    </div>
+
+                    <div class="card" style="background: #dcfce7; border-left: 4px solid #10b981;">
+                        <div style="display: flex; justify-between; align-items: start; margin-bottom: 12px;">
+                            <div>
+                                <div style="font-weight: 600; font-size: 16px; margin-bottom: 4px;">30 Des 2024</div>
+                                <div style="font-size: 14px; color: #6b7280;">Rombongan Pak Ahmad - Umroh Plus Turki</div>
+                            </div>
+                            <span class="badge badge-green">5 hari lagi</span>
+                        </div>
+                        <div style="display: flex; gap: 8px;">
+                            <span class="badge badge-green">30 ready</span>
+                            <span class="badge badge-yellow">2 at-risk</span>
+                            <span class="badge badge-green">0 blocked</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Team Performance -->
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="card-title">👥 Team Performance Hari Ini</h2>
+                </div>
+                <table style="width: 100%; border-collapse: collapse;">
+                    <thead>
+                        <tr style="border-bottom: 2px solid #e5e7eb; text-align: left;">
+                            <th style="padding: 12px; font-weight: 600;">Admin</th>
+                            <th style="padding: 12px; font-weight: 600;">Role</th>
+                            <th style="padding: 12px; font-weight: 600;">Completed</th>
+                            <th style="padding: 12px; font-weight: 600;">Overdue</th>
+                            <th style="padding: 12px; font-weight: 600;">Avg Time</th>
+                            <th style="padding: 12px; font-weight: 600;">Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr style="border-bottom: 1px solid #f3f4f6;">
+                            <td style="padding: 12px; font-weight: 500;">Dewi</td>
+                            <td style="padding: 12px; color: #6b7280;">Document Admin</td>
+                            <td style="padding: 12px;"><span class="badge badge-green">15</span></td>
+                            <td style="padding: 12px;"><span class="badge badge-yellow">2</span></td>
+                            <td style="padding: 12px;">2.3 jam</td>
+                            <td style="padding: 12px;"><span class="badge badge-green">Good</span></td>
+                        </tr>
+                        <tr style="border-bottom: 1px solid #f3f4f6;">
+                            <td style="padding: 12px; font-weight: 500;">Andi</td>
+                            <td style="padding: 12px; color: #6b7280;">Visa Admin</td>
+                            <td style="padding: 12px;"><span class="badge badge-blue">8</span></td>
+                            <td style="padding: 12px;"><span class="badge badge-red">5</span></td>
+                            <td style="padding: 12px;">4.1 jam</td>
+                            <td style="padding: 12px;"><span class="badge badge-red">At-Risk</span></td>
+                        </tr>
+                        <tr style="border-bottom: 1px solid #f3f4f6;">
+                            <td style="padding: 12px; font-weight: 500;">Budi</td>
+                            <td style="padding: 12px; color: #6b7280;">SISKOPATUH Admin</td>
+                            <td style="padding: 12px;"><span class="badge badge-green">12</span></td>
+                            <td style="padding: 12px;"><span class="badge badge-yellow">1</span></td>
+                            <td style="padding: 12px;">1.8 jam</td>
+                            <td style="padding: 12px;"><span class="badge badge-green">Good</span></td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 12px; font-weight: 500;">Sari</td>
+                            <td style="padding: 12px; color: #6b7280;">Logistics Admin</td>
+                            <td style="padding: 12px;"><span class="badge badge-green">10</span></td>
+                            <td style="padding: 12px;"><span class="badge badge-green">0</span></td>
+                            <td style="padding: 12px;">1.5 jam</td>
+                            <td style="padding: 12px;"><span class="badge badge-green">Excellent</span></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Tab 2: Pipeline Builder -->
+        <div id="builder" class="tab-content">
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="card-title">🔧 Configure Pipeline - PT Travel Berkah Umroh</h2>
+                    <div style="display: flex; gap: 8px;">
+                        <button class="btn btn-outline">📋 Copy from Template</button>
+                        <button class="btn btn-outline">📜 Version History</button>
+                        <button class="btn btn-primary">💾 Save Configuration</button>
+                    </div>
+                </div>
+
+                <div class="builder-container">
+                    <!-- Available Stages -->
+                    <div class="available-stages">
+                        <h3 class="section-title">Available Stages (Drag to Pipeline)</h3>
+
+                        <div class="stage-item">
+                            <span class="stage-item-icon">📄</span>
+                            <div class="stage-item-info">
+                                <div class="stage-item-name">KTP Collection</div>
+                                <div class="stage-item-meta">Document • SLA: 72h</div>
+                            </div>
+                            <span style="font-size: 20px; color: #9ca3af;">⋮⋮</span>
+                        </div>
+
+                        <div class="stage-item">
+                            <span class="stage-item-icon">📘</span>
+                            <div class="stage-item-info">
+                                <div class="stage-item-name">Passport Verification</div>
+                                <div class="stage-item-meta">Document • SLA: 48h</div>
+                            </div>
+                            <span style="font-size: 20px; color: #9ca3af;">⋮⋮</span>
+                        </div>
+
+                        <div class="stage-item">
+                            <span class="stage-item-icon">💉</span>
+                            <div class="stage-item-info">
+                                <div class="stage-item-name">Vaksin Certificate</div>
+                                <div class="stage-item-meta">Document • SLA: 120h • Optional</div>
+                            </div>
+                            <span style="font-size: 20px; color: #9ca3af;">⋮⋮</span>
+                        </div>
+
+                        <div class="stage-item">
+                            <span class="stage-item-icon">🏥</span>
+                            <div class="stage-item-info">
+                                <div class="stage-item-name">Medical Clearance</div>
+                                <div class="stage-item-meta">Custom • SLA: 168h • Optional (65+)</div>
+                            </div>
+                            <span style="font-size: 20px; color: #9ca3af;">⋮⋮</span>
+                        </div>
+
+                        <div class="stage-item">
+                            <span class="stage-item-icon">🎁</span>
+                            <div class="stage-item-info">
+                                <div class="stage-item-name">Custom Merchandise</div>
+                                <div class="stage-item-meta">Logistics • SLA: 120h • Optional</div>
+                            </div>
+                            <span style="font-size: 20px; color: #9ca3af;">⋮⋮</span>
+                        </div>
+                    </div>
+
+                    <!-- Active Pipeline -->
+                    <div class="active-pipeline">
+                        <h3 class="section-title">Active Pipeline (10 stages)</h3>
+
+                        <div class="pipeline-stage">
+                            <div class="pipeline-stage-header">
+                                <div class="stage-number">1</div>
+                                <span style="font-size: 20px;">📄</span>
+                                <div class="pipeline-stage-name">KTP Collection</div>
+                                <div class="pipeline-stage-actions">
+                                    <button class="icon-btn" title="Disable">👁️</button>
+                                    <button class="icon-btn" title="Move Up">▲</button>
+                                    <button class="icon-btn" title="Move Down">▼</button>
+                                    <button class="icon-btn" title="Delete">🗑️</button>
+                                </div>
+                            </div>
+                            <div class="stage-config">
+                                <div class="config-item">
+                                    <label class="config-label">SLA (hours)</label>
+                                    <input type="number" class="config-input" value="72">
+                                </div>
+                                <div class="config-item">
+                                    <label class="config-label">Responsible Role</label>
+                                    <select class="config-input">
+                                        <option>document-admin</option>
+                                        <option>admin</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="pipeline-stage">
+                            <div class="pipeline-stage-header">
+                                <div class="stage-number">2</div>
+                                <span style="font-size: 20px;">📘</span>
+                                <div class="pipeline-stage-name">Passport Verification</div>
+                                <div class="pipeline-stage-actions">
+                                    <button class="icon-btn">👁️</button>
+                                    <button class="icon-btn">▲</button>
+                                    <button class="icon-btn">▼</button>
+                                    <button class="icon-btn">🗑️</button>
+                                </div>
+                            </div>
+                            <div class="stage-config">
+                                <div class="config-item">
+                                    <label class="config-label">SLA (hours)</label>
+                                    <input type="number" class="config-input" value="48">
+                                </div>
+                                <div class="config-item">
+                                    <label class="config-label">Responsible Role</label>
+                                    <select class="config-input">
+                                        <option>document-admin</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="pipeline-stage">
+                            <div class="pipeline-stage-header">
+                                <div class="stage-number">3</div>
+                                <span style="font-size: 20px;">💉</span>
+                                <div class="pipeline-stage-name">Vaksin Certificate (Wajib)</div>
+                                <div class="pipeline-stage-actions">
+                                    <button class="icon-btn">👁️</button>
+                                    <button class="icon-btn">▲</button>
+                                    <button class="icon-btn">▼</button>
+                                    <button class="icon-btn">🗑️</button>
+                                </div>
+                            </div>
+                            <div class="stage-config">
+                                <div class="config-item">
+                                    <label class="config-label">SLA (hours)</label>
+                                    <input type="number" class="config-input" value="120">
+                                </div>
+                                <div class="config-item">
+                                    <label class="config-label">Responsible Role</label>
+                                    <select class="config-input">
+                                        <option>document-admin</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="pipeline-stage" style="border-left: 3px solid #f59e0b;">
+                            <div class="pipeline-stage-header">
+                                <div class="stage-number">4</div>
+                                <span style="font-size: 20px;">🏥</span>
+                                <div class="pipeline-stage-name">Medical Clearance</div>
+                                <span class="badge badge-yellow" style="margin-left: 8px;">Conditional: Age > 65</span>
+                                <div class="pipeline-stage-actions">
+                                    <button class="icon-btn">👁️</button>
+                                    <button class="icon-btn">▲</button>
+                                    <button class="icon-btn">▼</button>
+                                    <button class="icon-btn">🗑️</button>
+                                </div>
+                            </div>
+                            <div class="stage-config">
+                                <div class="config-item">
+                                    <label class="config-label">SLA (hours)</label>
+                                    <input type="number" class="config-input" value="168">
+                                </div>
+                                <div class="config-item">
+                                    <label class="config-label">Responsible Role</label>
+                                    <select class="config-input">
+                                        <option>health-admin</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div style="margin-top: 8px; padding: 8px; background: #fef3c7; border-radius: 4px; font-size: 12px; color: #a16207;">
+                                ⚠️ Condition: Only for jamaah age > 65 years
+                            </div>
+                        </div>
+
+                        <div style="text-align: center; padding: 20px; color: #6b7280;">
+                            ... 6 more stages (SISKOPATUH, Visa, Uniform, Merchandise, Flight, Briefing)
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Pipeline Preview -->
+                <div style="margin-top: 24px; padding: 20px; background: #f9fafb; border-radius: 8px;">
+                    <h3 class="section-title">Pipeline Preview</h3>
+                    <div class="pipeline-timeline">
+                        <div class="timeline-stage">
+                            <div class="timeline-icon completed">📄</div>
+                            <div class="timeline-name">KTP<br/>72h</div>
+                        </div>
+                        <div class="timeline-connector completed"></div>
+                        <div class="timeline-stage">
+                            <div class="timeline-icon completed">📘</div>
+                            <div class="timeline-name">Passport<br/>48h</div>
+                        </div>
+                        <div class="timeline-connector completed"></div>
+                        <div class="timeline-stage">
+                            <div class="timeline-icon current">💉</div>
+                            <div class="timeline-name">Vaksin<br/>120h</div>
+                        </div>
+                        <div class="timeline-connector"></div>
+                        <div class="timeline-stage">
+                            <div class="timeline-icon pending">🏥</div>
+                            <div class="timeline-name">Medical<br/>168h</div>
+                        </div>
+                        <div class="timeline-connector"></div>
+                        <div class="timeline-stage">
+                            <div class="timeline-icon pending">🏛️</div>
+                            <div class="timeline-name">SISKOPATUH<br/>24h</div>
+                        </div>
+                        <div class="timeline-connector"></div>
+                        <div class="timeline-stage">
+                            <div class="timeline-icon pending">📜</div>
+                            <div class="timeline-name">Visa<br/>240h</div>
+                        </div>
+                        <div class="timeline-connector"></div>
+                        <div class="timeline-stage">
+                            <div class="timeline-icon pending">✈️</div>
+                            <div class="timeline-name">Flight<br/>72h</div>
+                        </div>
+                    </div>
+                    <div style="text-align: center; color: #6b7280; font-size: 14px;">
+                        Total Stages: 10 active | Estimated Timeline: 30-45 days | Total SLA: 888 hours
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tab 3: Admin Task Queue -->
+        <div id="tasks" class="tab-content">
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="card-title">📋 Document Admin - Task Queue</h2>
+                    <div style="display: flex; gap: 16px; font-size: 14px;">
+                        <div><strong>Total:</strong> <span class="badge badge-blue">35</span></div>
+                        <div><strong>Completed Today:</strong> <span class="badge badge-green">15</span></div>
+                        <div><strong>Urgent:</strong> <span class="badge badge-red">8</span></div>
+                        <div><strong>Blocked:</strong> <span class="badge badge-yellow">3</span></div>
+                    </div>
+                </div>
+
+                <div class="kanban-board">
+                    <!-- Urgent Column -->
+                    <div class="kanban-column" style="background: #fef2f2;">
+                        <div class="kanban-header">
+                            <span class="kanban-title">⚠️ Urgent</span>
+                            <span class="kanban-count" style="background: #ef4444;">8</span>
+                        </div>
+
+                        <div class="jamaah-card">
+                            <div class="jamaah-name">Ahmad Hidayat</div>
+                            <div class="jamaah-meta">Umroh Reguler • Keberangkatan 28 Des</div>
+                            <div class="jamaah-issue">📄 Passport missing</div>
+                            <div class="jamaah-days">🚨 Berangkat dalam 3 hari!</div>
+                            <div class="jamaah-actions">
+                                <button class="btn-sm">📞 Call</button>
+                                <button class="btn-sm">💬 WA</button>
+                                <button class="btn-sm">✓ Detail</button>
+                            </div>
+                        </div>
+
+                        <div class="jamaah-card">
+                            <div class="jamaah-name">Fatimah Zahra</div>
+                            <div class="jamaah-meta">Umroh Plus Turki • Keberangkatan 30 Des</div>
+                            <div class="jamaah-issue">❌ KTP tidak jelas</div>
+                            <div class="jamaah-days">⚠️ Berangkat dalam 5 hari</div>
+                            <div class="jamaah-actions">
+                                <button class="btn-sm">📞 Call</button>
+                                <button class="btn-sm">💬 WA</button>
+                                <button class="btn-sm">✓ Detail</button>
+                            </div>
+                        </div>
+
+                        <div class="jamaah-card">
+                            <div class="jamaah-name">Budi Santoso</div>
+                            <div class="jamaah-meta">Umroh VIP • Keberangkatan 2 Jan</div>
+                            <div class="jamaah-issue">📷 Foto 4x6 missing</div>
+                            <div class="jamaah-days">⏰ Overdue 2 hari</div>
+                            <div class="jamaah-actions">
+                                <button class="btn-sm">📞 Call</button>
+                                <button class="btn-sm">💬 WA</button>
+                                <button class="btn-sm">✓ Detail</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Today Column -->
+                    <div class="kanban-column" style="background: #fffbeb;">
+                        <div class="kanban-header">
+                            <span class="kanban-title">📅 Due Hari Ini</span>
+                            <span class="kanban-count" style="background: #f59e0b;">15</span>
+                        </div>
+
+                        <div class="jamaah-card">
+                            <div class="jamaah-name">Siti Aminah</div>
+                            <div class="jamaah-meta">Umroh Reguler • Keberangkatan 15 Jan</div>
+                            <div class="jamaah-issue">📝 Vaksin certificate pending</div>
+                            <div class="jamaah-days">Due hari ini</div>
+                            <div class="jamaah-actions">
+                                <button class="btn-sm">📞 Call</button>
+                                <button class="btn-sm">💬 WA</button>
+                                <button class="btn-sm">✓ Detail</button>
+                            </div>
+                        </div>
+
+                        <div class="jamaah-card">
+                            <div class="jamaah-name">Rahman Hakim</div>
+                            <div class="jamaah-meta">Umroh Plus Dubai • Keberangkatan 20 Jan</div>
+                            <div class="jamaah-issue">📋 KK belum upload</div>
+                            <div class="jamaah-days">Due hari ini</div>
+                            <div class="jamaah-actions">
+                                <button class="btn-sm">📞 Call</button>
+                                <button class="btn-sm">💬 WA</button>
+                                <button class="btn-sm">✓ Detail</button>
+                            </div>
+                        </div>
+
+                        <div style="text-align: center; padding: 20px; color: #9ca3af; font-size: 13px;">
+                            ... 13 more tasks
+                        </div>
+                    </div>
+
+                    <!-- Upcoming Column -->
+                    <div class="kanban-column" style="background: #eff6ff;">
+                        <div class="kanban-header">
+                            <span class="kanban-title">🔜 Upcoming</span>
+                            <span class="kanban-count" style="background: #3b82f6;">22</span>
+                        </div>
+
+                        <div class="jamaah-card">
+                            <div class="jamaah-name">Yusuf Ibrahim</div>
+                            <div class="jamaah-meta">Umroh Reguler • Keberangkatan 25 Jan</div>
+                            <div class="jamaah-issue">📄 Document review needed</div>
+                            <div class="jamaah-days">Due 3 hari lagi</div>
+                            <div class="jamaah-actions">
+                                <button class="btn-sm">✓ Detail</button>
+                            </div>
+                        </div>
+
+                        <div class="jamaah-card">
+                            <div class="jamaah-name">Mariam Salma</div>
+                            <div class="jamaah-meta">Umroh Plus Turki • Keberangkatan 1 Feb</div>
+                            <div class="jamaah-issue">✅ All docs submitted</div>
+                            <div class="jamaah-days">Due 5 hari lagi</div>
+                            <div class="jamaah-actions">
+                                <button class="btn-sm">✓ Detail</button>
+                            </div>
+                        </div>
+
+                        <div style="text-align: center; padding: 20px; color: #9ca3af; font-size: 13px;">
+                            ... 20 more tasks
+                        </div>
+                    </div>
+
+                    <!-- Blocked Column -->
+                    <div class="kanban-column" style="background: #f3f4f6;">
+                        <div class="kanban-header">
+                            <span class="kanban-title">🚫 Blocked</span>
+                            <span class="kanban-count" style="background: #6b7280;">3</span>
+                        </div>
+
+                        <div class="jamaah-card">
+                            <div class="jamaah-name">Abdullah Malik</div>
+                            <div class="jamaah-meta">Umroh VIP • Keberangkatan 10 Jan</div>
+                            <div class="jamaah-issue">⚠️ Passport expired, needs renewal</div>
+                            <div class="jamaah-days">Blocked 5 hari</div>
+                            <div class="jamaah-actions">
+                                <button class="btn-sm">📞 Call</button>
+                                <button class="btn-sm">💬 WA</button>
+                                <button class="btn-sm">🔓 Resolve</button>
+                            </div>
+                        </div>
+
+                        <div class="jamaah-card">
+                            <div class="jamaah-name">Hafizah Nur</div>
+                            <div class="jamaah-meta">Umroh Reguler • Keberangkatan 18 Jan</div>
+                            <div class="jamaah-issue">⚠️ Waiting for agent response</div>
+                            <div class="jamaah-days">Blocked 2 hari</div>
+                            <div class="jamaah-actions">
+                                <button class="btn-sm">📞 Call</button>
+                                <button class="btn-sm">💬 WA</button>
+                                <button class="btn-sm">🔓 Resolve</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tab 4: Jamaah Detail -->
+        <div id="detail" class="tab-content">
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="card-title">Ahmad Hidayat - Pipeline Status</h2>
+                    <div class="badge badge-yellow">Umroh Reguler 9 Hari</div>
+                </div>
+
+                <!-- Progress Overview -->
+                <div style="padding: 20px; background: #f9fafb; border-radius: 8px; margin-bottom: 24px;">
+                    <div style="display: flex; justify-content: space-between; margin-bottom: 12px;">
+                        <span style="font-weight: 600; color: #374151;">Overall Progress</span>
+                        <span style="font-weight: 600; color: #3b82f6;">60% Complete</span>
+                    </div>
+                    <div style="width: 100%; height: 12px; background: #e5e7eb; border-radius: 6px; overflow: hidden;">
+                        <div style="width: 60%; height: 100%; background: linear-gradient(90deg, #3b82f6, #8b5cf6);"></div>
+                    </div>
+                    <div style="display: flex; justify-content: space-between; margin-top: 8px; font-size: 13px; color: #6b7280;">
+                        <span>6 of 10 stages completed</span>
+                        <span>🚨 Keberangkatan: 28 Des 2024 (3 hari lagi!)</span>
+                    </div>
+                </div>
+
+                <!-- Pipeline Timeline -->
+                <div class="card">
+                    <div class="card-title" style="margin-bottom: 16px;">Pipeline Timeline</div>
+                    <div class="pipeline-timeline">
+                        <div class="timeline-stage">
+                            <div class="timeline-icon completed">✓</div>
+                            <div class="timeline-name">KTP<br/><small>Completed</small></div>
+                        </div>
+                        <div class="timeline-connector completed"></div>
+                        <div class="timeline-stage">
+                            <div class="timeline-icon completed">✓</div>
+                            <div class="timeline-name">Passport<br/><small>Missing</small></div>
+                        </div>
+                        <div class="timeline-connector completed"></div>
+                        <div class="timeline-stage">
+                            <div class="timeline-icon completed">✓</div>
+                            <div class="timeline-name">Vaksin<br/><small>Verified</small></div>
+                        </div>
+                        <div class="timeline-connector completed"></div>
+                        <div class="timeline-stage">
+                            <div class="timeline-icon completed">✓</div>
+                            <div class="timeline-name">SISKOPATUH<br/><small>Approved</small></div>
+                        </div>
+                        <div class="timeline-connector completed"></div>
+                        <div class="timeline-stage">
+                            <div class="timeline-icon current">🔄</div>
+                            <div class="timeline-name">Visa<br/><small>In Progress</small></div>
+                        </div>
+                        <div class="timeline-connector"></div>
+                        <div class="timeline-stage">
+                            <div class="timeline-icon pending">⏳</div>
+                            <div class="timeline-name">Uniform<br/><small>Pending</small></div>
+                        </div>
+                        <div class="timeline-connector"></div>
+                        <div class="timeline-stage">
+                            <div class="timeline-icon pending">⏳</div>
+                            <div class="timeline-name">Flight<br/><small>Pending</small></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Current Stage Details -->
+                <div class="card" style="background: #dbeafe; border-left: 4px solid #3b82f6;">
+                    <div style="display: flex; justify-content: between; align-items: start; margin-bottom: 16px;">
+                        <div style="flex: 1;">
+                            <div style="font-weight: 600; font-size: 18px; margin-bottom: 4px;">
+                                Current Stage: Visa Processing
+                            </div>
+                            <div style="color: #6b7280; font-size: 14px;">
+                                Assigned to: Andi (Visa Admin) • Started: 3 days ago
+                            </div>
+                        </div>
+                        <span class="badge badge-blue">In Progress</span>
+                    </div>
+
+                    <div class="info-grid">
+                        <div class="info-item">
+                            <div class="info-label">SLA Deadline</div>
+                            <div class="info-value">26 Des 2024, 15:00</div>
+                        </div>
+                        <div class="info-item">
+                            <div class="info-label">Time Remaining</div>
+                            <div class="info-value" style="color: #ef4444;">⏰ 2 hari (at-risk)</div>
+                        </div>
+                    </div>
+
+                    <div style="margin-top: 16px; display: flex; gap: 8px;">
+                        <button class="btn btn-primary">Mark Complete</button>
+                        <button class="btn btn-outline">Add Blocker</button>
+                        <button class="btn btn-outline">📞 Call Jamaah</button>
+                        <button class="btn btn-outline">💬 WhatsApp Agent</button>
+                    </div>
+                </div>
+
+                <!-- Travel Details -->
+                <div class="card">
+                    <div class="card-title" style="margin-bottom: 16px;">✈️ Travel Details</div>
+                    <div class="info-grid">
+                        <div class="info-item">
+                            <div class="info-label">Flight Outbound</div>
+                            <div class="info-value">GA 123 - 28 Des 2024, 10:00</div>
+                            <div style="font-size: 12px; color: #6b7280; margin-top: 4px;">CGK → JED • Seat 23A</div>
+                        </div>
+                        <div class="info-item">
+                            <div class="info-label">Flight Inbound</div>
+                            <div class="info-value">GA 124 - 5 Jan 2025, 14:00</div>
+                            <div style="font-size: 12px; color: #6b7280; margin-top: 4px;">JED → CGK • Seat 23A</div>
+                        </div>
+                        <div class="info-item">
+                            <div class="info-label">Hotel Makkah</div>
+                            <div class="info-value">Hilton Suites Makkah</div>
+                            <div style="font-size: 12px; color: #6b7280; margin-top: 4px;">28 Des - 3 Jan • Room 1205</div>
+                        </div>
+                        <div class="info-item">
+                            <div class="info-label">Hotel Madinah</div>
+                            <div class="info-value">Pullman Zamzam Madinah</div>
+                            <div style="font-size: 12px; color: #6b7280; margin-top: 4px;">3 Jan - 5 Jan • Room 804</div>
+                        </div>
+                        <div class="info-item">
+                            <div class="info-label">Group</div>
+                            <div class="info-value">Rombongan Ibu Siti</div>
+                            <div style="font-size: 12px; color: #6b7280; margin-top: 4px;">Pembimbing: Ustadz Yusuf • 45 pax</div>
+                        </div>
+                        <div class="info-item">
+                            <div class="info-label">Agent</div>
+                            <div class="info-value">Ibu Siti Aminah</div>
+                            <div style="font-size: 12px; color: #6b7280; margin-top: 4px;">+62 812-3456-7890</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Activity Log -->
+                <div class="card">
+                    <div class="card-title" style="margin-bottom: 16px;">📜 Activity Log</div>
+                    <div style="border-left: 2px solid #e5e7eb; padding-left: 16px;">
+                        <div style="margin-bottom: 16px;">
+                            <div style="font-weight: 600; font-size: 14px; margin-bottom: 4px;">
+                                25 Des 2024, 09:15
+                            </div>
+                            <div style="font-size: 14px; color: #374151; margin-bottom: 2px;">
+                                Reminder sent to agent
+                            </div>
+                            <div style="font-size: 12px; color: #6b7280;">
+                                System • WhatsApp notification sent to Ibu Siti regarding missing documents
+                            </div>
+                        </div>
+
+                        <div style="margin-bottom: 16px;">
+                            <div style="font-weight: 600; font-size: 14px; margin-bottom: 4px;">
+                                24 Des 2024, 14:30
+                            </div>
+                            <div style="font-size: 14px; color: #374151; margin-bottom: 2px;">
+                                Document verified
+                            </div>
+                            <div style="font-size: 12px; color: #6b7280;">
+                                Dewi (Document Admin) • KTP and Vaksin certificate verified successfully
+                            </div>
+                        </div>
+
+                        <div style="margin-bottom: 16px;">
+                            <div style="font-weight: 600; font-size: 14px; margin-bottom: 4px;">
+                                22 Des 2024, 11:20
+                            </div>
+                            <div style="font-size: 14px; color: #374151; margin-bottom: 2px;">
+                                SISKOPATUH approved
+                            </div>
+                            <div style="font-size: 12px; color: #6b7280;">
+                                Budi (SISKOPATUH Admin) • Submission #SK-123456 approved by Kemenag
+                            </div>
+                        </div>
+
+                        <div>
+                            <div style="font-weight: 600; font-size: 14px; margin-bottom: 4px;">
+                                20 Des 2024, 10:00
+                            </div>
+                            <div style="font-size: 14px; color: #374151; margin-bottom: 2px;">
+                                Pipeline initialized
+                            </div>
+                            <div style="font-size: 12px; color: #6b7280;">
+                                System • Jamaah created, 10 pipeline stages initialized
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function switchTab(tabName) {
+            // Hide all tab contents
+            const contents = document.querySelectorAll('.tab-content');
+            contents.forEach(content => content.classList.remove('active'));
+
+            // Deactivate all tabs
+            const tabs = document.querySelectorAll('.tab');
+            tabs.forEach(tab => tab.classList.remove('active'));
+
+            // Show selected tab content
+            document.getElementById(tabName).classList.add('active');
+
+            // Activate selected tab
+            event.target.classList.add('active');
+        }
+    </script>
+</body>
+</html>

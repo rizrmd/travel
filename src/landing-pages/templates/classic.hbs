@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{{meta.title}}</title>
+  <meta name="description" content="{{meta.description}}">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: Georgia, 'Times New Roman', serif;
+      line-height: 1.8;
+      color: #2c3e50;
+      background: #f4f1ea;
+    }
+    .header {
+      background: {{colors.primary}};
+      color: white;
+      padding: 30px;
+      text-align: center;
+      border-bottom: 5px solid {{colors.accent}};
+    }
+    .container { max-width: 900px; margin: 0 auto; padding: 40px 20px; background: white; }
+    h1 { font-size: 2.5rem; font-weight: 400; letter-spacing: 2px; }
+    .ornament { text-align: center; font-size: 2rem; margin: 20px 0; }
+    .price-box {
+      border: 3px solid {{colors.primary}};
+      padding: 30px;
+      text-align: center;
+      margin: 40px 0;
+    }
+    .price { font-size: 3rem; color: {{colors.accent}}; font-weight: bold; }
+    .btn {
+      display: inline-block;
+      background: {{colors.primary}};
+      color: white;
+      padding: 15px 35px;
+      text-decoration: none;
+      border: 2px solid {{colors.primary}};
+      margin: 10px;
+      transition: all 0.3s;
+    }
+    .btn:hover { background: white; color: {{colors.primary}}; }
+    .detail-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 30px 0;
+    }
+    .detail-table th, .detail-table td {
+      padding: 15px;
+      text-align: left;
+      border-bottom: 1px solid #ddd;
+    }
+    .detail-table th {
+      background: {{colors.primary}};
+      color: white;
+    }
+    @media (max-width: 768px) {
+      h1 { font-size: 1.8rem; }
+      .price { font-size: 2rem; }
+    }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <h1>🕋 {{package.name}}</h1>
+    <p>{{package.description}}</p>
+  </div>
+
+  <div class="container">
+    <div class="ornament">☪️ ✦ ☪️</div>
+
+    <div class="price-box">
+      <p style="font-size: 1.2rem; margin-bottom: 10px;">Investasi Ibadah Anda</p>
+      <div class="price">{{formatCurrency package.price}}</div>
+      <p style="margin-top: 10px;">{{package.duration}} Hari | Keberangkatan {{formatDate package.departure_date}}</p>
+    </div>
+
+    <div style="text-align: center; margin: 40px 0;">
+      <a href="{{whatsappUrl agent.whatsapp 'Assalamu alaikum, saya tertarik dengan ' package.name}}" class="btn" style="background: #25D366; border-color: #25D366;">
+        💬 Konsultasi via WhatsApp
+      </a>
+      <a href="#form" class="btn">📝 Daftar Sekarang</a>
+    </div>
+
+    <h2 style="text-align: center; margin: 50px 0 30px; font-size: 2rem;">Detail Paket</h2>
+
+    <table class="detail-table">
+      <tr>
+        <th>Fasilitas</th>
+        <th>Keterangan</th>
+      </tr>
+      <tr>
+        <td><strong>Hotel Makkah</strong></td>
+        <td>{{package.hotel_makkah}}</td>
+      </tr>
+      <tr>
+        <td><strong>Hotel Madinah</strong></td>
+        <td>{{package.hotel_madinah}}</td>
+      </tr>
+      <tr>
+        <td><strong>Maskapai</strong></td>
+        <td>{{package.airline}}</td>
+      </tr>
+      <tr>
+        <td><strong>Durasi</strong></td>
+        <td>{{package.duration}} Hari</td>
+      </tr>
+    </table>
+
+    <h3>Fasilitas Yang Didapatkan:</h3>
+    <ul style="margin: 20px 0 40px 30px;">
+      {{#each package.inclusions}}
+      <li style="margin-bottom: 10px;">{{this}}</li>
+      {{/each}}
+    </ul>
+
+    <h2 style="text-align: center; margin: 50px 0 30px; font-size: 2rem;">Itinerary</h2>
+    {{#each package.itinerary}}
+    <div style="margin-bottom: 30px; padding-left: 30px; border-left: 4px solid {{../colors.primary}};">
+      <h4 style="color: {{../colors.primary}};">Hari {{this.day}}: {{this.title}}</h4>
+      <p style="margin-top: 10px;">{{this.description}}</p>
+    </div>
+    {{/each}}
+
+    <div id="form" style="background: #f8f9fa; padding: 40px; margin: 60px 0;">
+      <h2 style="text-align: center; margin-bottom: 30px;">Formulir Pendaftaran</h2>
+      <form action="/api/v1/leads" method="POST">
+        <div style="margin-bottom: 15px;">
+          <label style="display: block; margin-bottom: 5px;">Nama Lengkap *</label>
+          <input type="text" name="full_name" required style="width: 100%; padding: 12px; border: 1px solid #ddd;">
+        </div>
+        <div style="margin-bottom: 15px;">
+          <label style="display: block; margin-bottom: 5px;">Email *</label>
+          <input type="email" name="email" required style="width: 100%; padding: 12px; border: 1px solid #ddd;">
+        </div>
+        <div style="margin-bottom: 15px;">
+          <label style="display: block; margin-bottom: 5px;">Nomor WhatsApp *</label>
+          <input type="tel" name="phone" required style="width: 100%; padding: 12px; border: 1px solid #ddd;">
+        </div>
+        <div style="margin-bottom: 15px;">
+          <label style="display: block; margin-bottom: 5px;">Bulan Keberangkatan</label>
+          <input type="text" name="preferred_departure_month" style="width: 100%; padding: 12px; border: 1px solid #ddd;">
+        </div>
+        <div style="margin-bottom: 20px;">
+          <label style="display: block; margin-bottom: 5px;">Pesan</label>
+          <textarea name="message" rows="4" style="width: 100%; padding: 12px; border: 1px solid #ddd;"></textarea>
+        </div>
+        <button type="submit" class="btn" style="width: 100%;">Kirim Pendaftaran</button>
+      </form>
+    </div>
+
+    <div style="text-align: center; padding: 40px 0; border-top: 2px solid #ddd; margin-top: 40px;">
+      <h3>{{agent.name}}</h3>
+      {{#if agent.tagline}}<p style="font-style: italic;">{{agent.tagline}}</p>{{/if}}
+      <p style="margin-top: 15px;">📞 {{agent.phone}} | 📧 {{agent.email}}</p>
+    </div>
+  </div>
+</body>
+</html>

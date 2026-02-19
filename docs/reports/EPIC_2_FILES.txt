@@ -1,0 +1,77 @@
+EPIC 2: Multi-Tenant Agency Management - File List
+===================================================
+
+DOMAIN MODELS
+-------------
+1. src/tenants/domain/tenant.ts
+2. src/users/domain/user.ts
+
+ENTITIES
+--------
+3. src/tenants/entities/tenant.entity.ts
+4. src/users/entities/user.entity.ts
+5. src/auth/entities/session.entity.ts
+
+DTOs
+----
+6. src/tenants/dto/create-tenant.dto.ts
+7. src/tenants/dto/update-tenant.dto.ts
+8. src/auth/dto/login.dto.ts
+9. src/auth/dto/register.dto.ts
+10. src/auth/dto/refresh-token.dto.ts
+11. src/users/dto/create-user.dto.ts
+
+SERVICES
+--------
+12. src/tenants/tenants.service.ts
+13. src/auth/auth.service.ts
+14. src/users/users.service.ts
+15. src/tenants/services/resource-monitor.service.ts
+
+CONTROLLERS
+-----------
+16. src/tenants/tenants.controller.ts
+17. src/auth/auth.controller.ts
+18. src/users/users.controller.ts
+
+MIDDLEWARE
+----------
+19. src/tenants/middleware/tenant.middleware.ts
+
+GUARDS & STRATEGIES
+-------------------
+20. src/auth/strategies/jwt.strategy.ts
+21. src/auth/guards/jwt-auth.guard.ts
+22. src/auth/guards/roles.guard.ts
+23. src/common/guards/resource-limits.guard.ts
+
+DECORATORS
+----------
+24. src/auth/decorators/roles.decorator.ts
+25. src/auth/decorators/public.decorator.ts
+26. src/common/decorators/check-resource-limits.decorator.ts
+
+MODULES
+-------
+27. src/tenants/tenants.module.ts
+28. src/auth/auth.module.ts
+29. src/users/users.module.ts
+
+JOBS
+----
+30. src/tenants/jobs/tenant-provisioning.processor.ts
+
+MIGRATIONS
+----------
+31. src/database/migrations/1766800000000-CreateTenantsAndUsers.ts
+
+CONFIGURATION
+-------------
+32. src/app.module.ts (modified)
+
+DOCUMENTATION
+-------------
+33. EPIC_2_SUMMARY.md
+34. EPIC_2_FILES.txt (this file)
+
+Total: 34 files (33 implementation files + 1 documentation)
