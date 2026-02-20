@@ -86,7 +86,8 @@ async function bootstrap() {
 
       expressApp.use((req, res, next) => {
         if (
-          req.path.startsWith("/api") ||
+          req.path.startsWith("/api/v1") ||
+          req.path.startsWith("/api/docs") ||
           req.path.startsWith("/ws") ||
           req.path.startsWith("/socket.io")
         ) {
