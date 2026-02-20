@@ -14,6 +14,8 @@ import { FilterPresetEntity } from "./infrastructure/persistence/relational/enti
 import { PaymentEntity } from "../payments/infrastructure/persistence/relational/entities/payment.entity";
 import { JamaahEntity } from "../jamaah/infrastructure/persistence/relational/entities/jamaah.entity";
 import { PackageEntity } from "../packages/infrastructure/persistence/relational/entities/package.entity";
+import { LandingPageEntity } from "../landing-pages/infrastructure/persistence/relational/entities/landing-page.entity";
+import { LeadEntity } from "../leads/infrastructure/persistence/relational/entities/lead.entity";
 
 // Services
 import { RevenueMetricsService } from "./services/revenue-metrics.service";
@@ -23,6 +25,7 @@ import { AgentPerformanceService } from "./services/agent-performance.service";
 import { LeaderboardService } from "./services/leaderboard.service";
 import { AnalyticsEventService } from "./services/analytics-event.service";
 import { FilterPresetService } from "./services/filter-preset.service";
+import { PageAnalyticsService } from "./services/page-analytics.service";
 
 // Controllers
 import { AnalyticsController } from "./analytics.controller";
@@ -44,6 +47,8 @@ import { LeaderboardUpdateProcessor } from "./jobs/leaderboard-update.processor"
       PaymentEntity,
       JamaahEntity,
       PackageEntity,
+      LandingPageEntity,
+      LeadEntity,
     ]),
     // Schedule module for cron jobs
     ScheduleModule.forRoot(),
@@ -58,6 +63,7 @@ import { LeaderboardUpdateProcessor } from "./jobs/leaderboard-update.processor"
     LeaderboardService,
     AnalyticsEventService,
     FilterPresetService,
+    PageAnalyticsService,
     // Background jobs
     DailySnapshotProcessor,
     LeaderboardUpdateProcessor,
@@ -71,6 +77,7 @@ import { LeaderboardUpdateProcessor } from "./jobs/leaderboard-update.processor"
     LeaderboardService,
     AnalyticsEventService,
     FilterPresetService,
+    PageAnalyticsService,
   ],
 })
 export class AnalyticsModule {}

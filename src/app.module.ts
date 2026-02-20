@@ -23,6 +23,7 @@ import { OcrModule } from "./ocr/ocr.module";
 import { ComplianceModule } from "./compliance/compliance.module";
 import { SiskopatuhModule } from "./siskopatuh/siskopatuh.module";
 import { ESignatureModule } from "./esignature/esignature.module";
+import { TenantEntity } from "./tenants/entities/tenant.entity";
 
 const typeOrmDatabaseConfig = process.env.DATABASE_URL
   ? {
@@ -57,6 +58,7 @@ const typeOrmDatabaseConfig = process.env.DATABASE_URL
       synchronize: false, // Always use migrations in production
       logging: process.env.NODE_ENV === "development",
     }),
+    TypeOrmModule.forFeature([TenantEntity]),
 
     // Feature Modules
     RolesModule,
@@ -102,7 +104,7 @@ const typeOrmDatabaseConfig = process.env.DATABASE_URL
     // - BookingsModule (Epic 7)
   ],
   controllers: [],
-  providers: [],
+  providers: [TenantMiddleware],
 })
 export class AppModule implements NestModule {
   /**
