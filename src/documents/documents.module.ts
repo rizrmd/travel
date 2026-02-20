@@ -79,6 +79,7 @@ import { QueueName } from "../queue/types/queue-jobs.type";
     OcrStubService,
   ],
   exports: [
+    FileStorageService,
     DocumentsService,
     BatchUploadService,
     DocumentReviewService,
