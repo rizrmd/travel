@@ -4,9 +4,16 @@ WORKDIR /app
 
 COPY package*.json ./
 RUN npm ci --include=dev
+COPY frontend/package*.json ./frontend/
+RUN cd frontend && npm ci
 
 COPY . .
 RUN npm run build
+RUN cd frontend && npm run build
+RUN mkdir -p dist/frontend/.next \
+    && cp -R frontend/.next/standalone/. dist/frontend/ \
+    && cp -R frontend/.next/static dist/frontend/.next/static \
+    && if [ -d frontend/public ]; then cp -R frontend/public dist/frontend/public; fi
 RUN npm prune --omit=dev
 
 FROM node:20-alpine AS runner

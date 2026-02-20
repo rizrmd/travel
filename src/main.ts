@@ -1,6 +1,10 @@
 import { NestFactory } from "@nestjs/core";
 import { ValidationPipe } from "@nestjs/common";
 import { SwaggerModule, DocumentBuilder } from "@nestjs/swagger";
+import { spawn } from "child_process";
+import { existsSync } from "fs";
+import { join } from "path";
+import { createProxyMiddleware } from "http-proxy-middleware";
 import { AppModule } from "./app.module";
 
 /**
@@ -46,6 +50,63 @@ async function bootstrap() {
 
     const document = SwaggerModule.createDocument(app, config);
     SwaggerModule.setup("api/docs", app, document);
+  }
+
+  const serveFrontend =
+    process.env.SERVE_FRONTEND === "true" ||
+    process.env.NODE_ENV === "production";
+
+  if (serveFrontend) {
+    const frontendServerPath = join(__dirname, "frontend", "server.js");
+    if (existsSync(frontendServerPath)) {
+      const frontendPort = parseInt(process.env.FRONTEND_PORT || "3002", 10);
+      const frontendTarget = `http://127.0.0.1:${frontendPort}`;
+
+      const frontendProcess = spawn("node", [frontendServerPath], {
+        stdio: "inherit",
+        env: {
+          ...process.env,
+          PORT: String(frontendPort),
+          HOSTNAME: "127.0.0.1",
+        },
+      });
+
+      frontendProcess.on("exit", (code) => {
+        console.error(
+          `[frontend] standalone process exited with code ${code ?? "unknown"}`,
+        );
+      });
+
+      const expressApp = app.getHttpAdapter().getInstance();
+      const frontendProxy = createProxyMiddleware({
+        target: frontendTarget,
+        changeOrigin: true,
+        ws: true,
+      });
+
+      expressApp.use((req, res, next) => {
+        if (
+          req.path.startsWith("/api") ||
+          req.path.startsWith("/ws") ||
+          req.path.startsWith("/socket.io")
+        ) {
+          return next();
+        }
+        return frontendProxy(req, res, next);
+      });
+
+      const shutdown = () => {
+        if (!frontendProcess.killed) {
+          frontendProcess.kill("SIGTERM");
+        }
+      };
+      process.on("SIGINT", shutdown);
+      process.on("SIGTERM", shutdown);
+    } else {
+      console.warn(
+        `[frontend] standalone server not found at ${frontendServerPath}; serving API only`,
+      );
+    }
   }
 
   // Start server
