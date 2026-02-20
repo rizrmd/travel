@@ -19,7 +19,7 @@ import { Roles } from "../auth/decorators/roles.decorator";
 import { UserRole, UserStatus } from "./domain/user";
 
 @ApiTags("Users")
-@Controller("api/v1/users")
+@Controller("users")
 @UseGuards(JwtAuthGuard, RolesGuard)
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}

@@ -22,7 +22,7 @@ import { WebhookPayloadDto } from "../dto";
 import { SubmissionStatus } from "../domain";
 
 @ApiTags("SISKOPATUH Webhook")
-@Controller("api/v1/siskopatuh/webhook")
+@Controller("siskopatuh/webhook")
 export class SiskopatuhWebhookController {
   private readonly logger = new Logger(SiskopatuhWebhookController.name);
 

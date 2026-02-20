@@ -20,7 +20,7 @@ import {
 
 @ApiTags("Jamaah Bulk Operations")
 @ApiBearerAuth()
-@Controller("api/v1/jamaah/bulk")
+@Controller("jamaah/bulk")
 export class JamaahBulkController {
   constructor(private readonly bulkOperationsService: BulkOperationsService) {}
 

@@ -50,7 +50,7 @@ import {
 
 @ApiTags("Packages")
 @ApiBearerAuth()
-@Controller("api/v1/packages")
+@Controller("packages")
 export class PackagesController {
   constructor(
     private readonly packagesService: PackagesService,

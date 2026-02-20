@@ -39,7 +39,7 @@ import {
 
 @ApiTags("Compliance - Dashboard & Reports")
 @ApiBearerAuth()
-@Controller("api/v1/compliance")
+@Controller("compliance")
 export class ComplianceDashboardController {
   constructor(
     private dashboardService: ComplianceDashboardService,

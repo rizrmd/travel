@@ -23,7 +23,7 @@ import { JwtAuthGuard } from "./guards/jwt-auth.guard";
 import { Public } from "./decorators/public.decorator";
 
 @ApiTags("Authentication")
-@Controller("api/v1/auth")
+@Controller("auth")
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
 

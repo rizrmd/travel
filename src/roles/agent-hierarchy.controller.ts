@@ -38,7 +38,7 @@ import { AgentHierarchyResponseDto } from "./dto/agent-hierarchy-response.dto";
  */
 @ApiTags("agent-hierarchy")
 @ApiBearerAuth()
-@Controller("api/v1/agents")
+@Controller("agents")
 export class AgentHierarchyController {
   constructor(private readonly agentHierarchyService: AgentHierarchyService) {}
 

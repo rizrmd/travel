@@ -23,7 +23,7 @@ import { SiskopathSubmissionDto, SiskopathStatusResponseDto } from "../dto";
 
 @ApiTags("Compliance - SISKOPATUH")
 @ApiBearerAuth()
-@Controller("api/v1/compliance/siskopatuh")
+@Controller("compliance/siskopatuh")
 export class SiskopathController {
   constructor(private siskopathService: SiskopathService) {}
 

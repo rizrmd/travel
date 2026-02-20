@@ -27,7 +27,7 @@ import { TrainingMaterialsListQueryDto } from "./dto/training-materials-list-que
 import { SearchMaterialsQueryDto } from "./dto/search-materials-query.dto";
 import { MarkCompleteDto } from "./dto/mark-complete.dto";
 
-@Controller("api/v1/onboarding/training")
+@Controller("onboarding/training")
 @UseGuards(JwtAuthGuard, RolesGuard)
 export class TrainingMaterialsController {
   constructor(

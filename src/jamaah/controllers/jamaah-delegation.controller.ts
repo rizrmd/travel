@@ -29,7 +29,7 @@ import {
 
 @ApiTags("Jamaah Delegation")
 @ApiBearerAuth()
-@Controller("api/v1/jamaah/:jamaahId/delegation")
+@Controller("jamaah/:jamaahId/delegation")
 export class JamaahDelegationController {
   constructor(private readonly delegationService: DelegationService) {}
 

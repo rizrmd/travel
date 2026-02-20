@@ -26,7 +26,7 @@ import { QuerySubmissionsDto, ComplianceReportQueryDto } from "../dto";
 
 @ApiTags("SISKOPATUH Integration")
 @ApiBearerAuth()
-@Controller("api/v1/siskopatuh")
+@Controller("siskopatuh")
 export class SiskopatuhController {
   constructor(private readonly siskopatuhService: SiskopatuhService) {}
 

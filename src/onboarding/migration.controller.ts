@@ -31,7 +31,7 @@ import { UploadCsvDto } from "./dto/upload-csv.dto";
 import { MigrationListQueryDto } from "./dto/migration-list-query.dto";
 import { CsvImportDomain, CsvImportType } from "./domain/csv-import";
 
-@Controller("api/v1/onboarding/migration")
+@Controller("onboarding/migration")
 @UseGuards(JwtAuthGuard, RolesGuard)
 export class MigrationController {
   constructor(

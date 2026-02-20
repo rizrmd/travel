@@ -14,7 +14,7 @@ import { AdoptionAnalyticsService } from "./services/adoption-analytics.service"
 import { UserActivityTrackerService } from "./services/user-activity-tracker.service";
 import { AdoptionMetricsQueryDto } from "./dto/adoption-metrics-query.dto";
 
-@Controller("api/v1/onboarding/analytics")
+@Controller("onboarding/analytics")
 @UseGuards(JwtAuthGuard, RolesGuard)
 export class AdoptionAnalyticsController {
   constructor(

@@ -37,7 +37,7 @@ import {
 
 @ApiTags("Jamaah Management")
 @ApiBearerAuth()
-@Controller("api/v1/jamaah")
+@Controller("jamaah")
 export class JamaahController {
   constructor(
     private readonly jamaahService: JamaahService,

@@ -34,7 +34,7 @@ import {
 
 @ApiTags("OCR Integration")
 @ApiBearerAuth()
-@Controller("api/v1/ocr")
+@Controller("ocr")
 @UseGuards(JwtAuthGuard, RolesGuard)
 export class OcrController {
   constructor(private readonly ocrService: OcrService) { }

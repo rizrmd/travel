@@ -39,7 +39,7 @@ import { UserRole } from "../../users/domain/user";
 
 @ApiTags("Documents - Batch Upload")
 @ApiBearerAuth()
-@Controller("api/v1/documents/batch")
+@Controller("documents/batch")
 @UseGuards(JwtAuthGuard, RolesGuard)
 export class DocumentsBatchController {
   constructor(private readonly batchUploadService: BatchUploadService) { }

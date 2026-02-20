@@ -22,7 +22,7 @@ import { CreateTrainingRequestDto } from "./dto/create-training-request.dto";
 import { TrainingRequestStatus } from "./infrastructure/persistence/relational/entities/training-request.entity";
 import { UserRole } from "../users/domain/user";
 
-@Controller("api/v1/onboarding/training/requests")
+@Controller("onboarding/training/requests")
 @UseGuards(JwtAuthGuard, RolesGuard)
 export class TrainingRequestsController {
   constructor(private requestService: TrainingRequestService) { }

@@ -26,7 +26,7 @@ import { UserRole } from "../../users/domain/user";
 
 @ApiTags("OCR (Coming Soon)")
 @ApiBearerAuth()
-@Controller("api/v1/ocr")
+@Controller("ocr")
 @UseGuards(JwtAuthGuard, RolesGuard)
 export class OcrController {
   constructor(private readonly ocrService: OcrStubService) { }

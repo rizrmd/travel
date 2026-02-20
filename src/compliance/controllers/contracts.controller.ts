@@ -39,7 +39,7 @@ import { AuditAction, ActorRole } from "../domain/audit-log";
 
 @ApiTags("Compliance - Contracts")
 @ApiBearerAuth()
-@Controller("api/v1/compliance/contracts")
+@Controller("compliance/contracts")
 export class ContractsController {
   constructor(
     private contractGeneratorService: ContractGeneratorService,

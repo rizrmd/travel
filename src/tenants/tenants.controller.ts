@@ -31,7 +31,7 @@ import { Public } from "../auth/decorators/public.decorator";
 import { UserRole } from "../users/domain/user";
 
 @ApiTags("Tenants")
-@Controller("api/v1/tenants")
+@Controller("tenants")
 export class TenantsController {
   constructor(
     private readonly tenantsService: TenantsService,

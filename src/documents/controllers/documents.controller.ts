@@ -44,7 +44,7 @@ import { UserRole } from "../../users/domain/user";
 
 @ApiTags("Documents")
 @ApiBearerAuth()
-@Controller("api/v1/documents")
+@Controller("documents")
 @UseGuards(JwtAuthGuard, RolesGuard)
 export class DocumentsController {
   constructor(private readonly documentsService: DocumentsService) { }

@@ -33,7 +33,7 @@ import { UserRole } from "../../users/domain/user";
 
 @ApiTags("Documents - Review")
 @ApiBearerAuth()
-@Controller("api/v1/documents/review")
+@Controller("documents/review")
 @UseGuards(JwtAuthGuard, RolesGuard)
 export class DocumentsReviewController {
   constructor(
