@@ -1,7 +1,7 @@
 "use client"
 
 import { useState, useEffect } from "react"
-import { useRouter } from "next/navigation"
+import { useParams, useRouter } from "next/navigation"
 import { ArrowLeft, Users, Check, X } from "lucide-react"
 import { AppLayout } from "@/components/layout/app-layout"
 import { adminMenuItems } from "@/lib/navigation/menu-items"
@@ -15,8 +15,9 @@ import { mockAgents, tierCommissionRates } from "@/lib/data/mock-agents"
 import { getAssignedAgents } from "@/lib/data/mock-package-assignments"
 import { formatCurrency } from "@/lib/data/mock-dashboard"
 
-export default function AssignAgentsPage({ params }: { params: { id: string } }) {
+export default function AssignAgentsPage() {
   const router = useRouter()
+  const params = useParams<{ id: string }>()
   const packageId = params.id
 
   // Load package data

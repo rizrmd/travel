@@ -1,7 +1,7 @@
 "use client"
 
 import { useState, useEffect } from "react"
-import { useRouter } from "next/navigation"
+import { useParams, useRouter } from "next/navigation"
 import { ArrowLeft, Package, Save } from "lucide-react"
 import { AppLayout } from "@/components/layout/app-layout"
 import { adminMenuItems } from "@/lib/navigation/menu-items"
@@ -38,8 +38,9 @@ const tierStructure: CommissionTier[] = [
   { tier: 'Platinum', commissionRate: 8, minJamaah: 50 },
 ]
 
-export default function EditPackagePage({ params }: { params: { id: string } }) {
+export default function EditPackagePage() {
   const router = useRouter()
+  const params = useParams<{ id: string }>()
   const packageId = params.id
 
   // Load package data
