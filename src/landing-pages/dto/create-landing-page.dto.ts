@@ -19,39 +19,9 @@ import {
  * Epic 10, Story 10.2: Create Landing Page DTO
  */
 
-export class CreateLandingPageDto {
-  @ApiProperty({ description: "Package ID to create landing page for" })
-  @IsUUID()
-  packageId: string;
-
-  @ApiProperty({
-    enum: TemplateType,
-    description: "Template type",
-    default: TemplateType.MODERN,
-  })
-  @IsEnum(TemplateType)
-  @IsOptional()
-  templateId?: TemplateType;
-
-  @ApiPropertyOptional({
-    description: "Custom slug (auto-generated if not provided)",
-  })
-  @IsString()
-  @IsOptional()
-  @Matches(/^[a-z0-9]+(?:-[a-z0-9]+)*$/, {
-    message: "Slug must be lowercase alphanumeric with hyphens only",
-  })
-  @MaxLength(255)
-  slug?: string;
-
-  @ApiPropertyOptional({ description: "Customization options" })
-  @IsOptional()
-  @ValidateNested()
-  @Type(() => LandingPageCustomizationsDto)
-  customizations?: LandingPageCustomizationsDto;
-}
-
-export class LandingPageCustomizationsDto implements Partial<LandingPageCustomizations> {
+export class LandingPageCustomizationsDto
+  implements Partial<LandingPageCustomizations>
+{
   @ApiPropertyOptional({ example: "#3B82F6" })
   @IsString()
   @IsOptional()
@@ -158,4 +128,36 @@ export class LandingPageCustomizationsDto implements Partial<LandingPageCustomiz
   @IsUrl()
   @IsOptional()
   ogImageUrl?: string;
+}
+
+export class CreateLandingPageDto {
+  @ApiProperty({ description: "Package ID to create landing page for" })
+  @IsUUID()
+  packageId: string;
+
+  @ApiProperty({
+    enum: TemplateType,
+    description: "Template type",
+    default: TemplateType.MODERN,
+  })
+  @IsEnum(TemplateType)
+  @IsOptional()
+  templateId?: TemplateType;
+
+  @ApiPropertyOptional({
+    description: "Custom slug (auto-generated if not provided)",
+  })
+  @IsString()
+  @IsOptional()
+  @Matches(/^[a-z0-9]+(?:-[a-z0-9]+)*$/, {
+    message: "Slug must be lowercase alphanumeric with hyphens only",
+  })
+  @MaxLength(255)
+  slug?: string;
+
+  @ApiPropertyOptional({ description: "Customization options" })
+  @IsOptional()
+  @ValidateNested()
+  @Type(() => LandingPageCustomizationsDto)
+  customizations?: LandingPageCustomizationsDto;
 }
