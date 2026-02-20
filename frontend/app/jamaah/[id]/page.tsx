@@ -1,7 +1,7 @@
 "use client"
 
-import { use } from "react"
 import Link from "next/link"
+import { useParams } from "next/navigation"
 import { ArrowLeft, Edit, FileText, DollarSign, Clock, CheckCircle, XCircle } from "lucide-react"
 import { AppLayout } from "@/components/layout/app-layout"
 import { Button } from "@/components/ui/button"
@@ -19,10 +19,6 @@ import { mockJamaah } from "@/lib/data/mock-jamaah"
 import { formatCurrency } from "@/lib/data/mock-dashboard"
 import { toast } from "sonner"
 import { cn } from "@/lib/utils"
-
-interface PageProps {
-  params: Promise<{ id: string }>
-}
 
 // Mock documents for this jamaah
 const mockJamaahDocuments = [
@@ -67,8 +63,9 @@ function DocumentStatusBadge({ status }: { status: 'complete' | 'pending' | 'inc
   )
 }
 
-export default function JamaahDetailPage({ params }: PageProps) {
-  const { id } = use(params)
+export default function JamaahDetailPage() {
+  const params = useParams<{ id: string }>()
+  const id = params.id
   const jamaah = mockJamaah.find((j) => j.id === id)
 
   const handleNotificationClick = () => {
