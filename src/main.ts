@@ -27,25 +27,26 @@ async function bootstrap() {
     }),
   );
 
-  // Swagger/OpenAPI documentation
-  const config = new DocumentBuilder()
-    .setTitle("Travel Umroh API")
-    .setDescription("Multi-tenant SaaS platform for Umroh travel agencies")
-    .setVersion("1.0")
-    .addBearerAuth()
-    .addTag("Roles & Permissions", "Agent hierarchy and role management")
-    .addTag("Payments", "Payment processing and installment management")
-    .addTag("Commissions", "Commission tracking and payout management")
-    .addTag("WhatsApp Integration (Coming Soon)", "WhatsApp Business API stubs")
-    .build();
+  const swaggerEnabled =
+    process.env.SWAGGER_ENABLED === "true" ||
+    process.env.NODE_ENV !== "production";
 
-  const document = SwaggerModule.createDocument(app, config);
-  SwaggerModule.setup("api/docs", app, document);
+  if (swaggerEnabled) {
+    // Swagger/OpenAPI documentation
+    const config = new DocumentBuilder()
+      .setTitle("Travel Umroh API")
+      .setDescription("Multi-tenant SaaS platform for Umroh travel agencies")
+      .setVersion("1.0")
+      .addBearerAuth()
+      .addTag("Roles & Permissions", "Agent hierarchy and role management")
+      .addTag("Payments", "Payment processing and installment management")
+      .addTag("Commissions", "Commission tracking and payout management")
+      .addTag("WhatsApp Integration (Coming Soon)", "WhatsApp Business API stubs")
+      .build();
 
-  // Redirect bare domain to API docs for API-only deployments.
-  app.getHttpAdapter().getInstance().get("/", (_req, res) => {
-    res.redirect("/api/docs");
-  });
+    const document = SwaggerModule.createDocument(app, config);
+    SwaggerModule.setup("api/docs", app, document);
+  }
 
   // Start server
   const port = process.env.PORT || 3000;
