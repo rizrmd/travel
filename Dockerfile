@@ -5,7 +5,7 @@ WORKDIR /app
 COPY package*.json ./
 RUN npm ci --include=dev
 COPY frontend/package*.json ./frontend/
-RUN cd frontend && npm ci
+RUN cd frontend && npm ci --include=dev
 
 COPY . .
 RUN npm run build
