@@ -42,6 +42,11 @@ async function bootstrap() {
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup("api/docs", app, document);
 
+  // Redirect bare domain to API docs for API-only deployments.
+  app.getHttpAdapter().getInstance().get("/", (_req, res) => {
+    res.redirect("/api/docs");
+  });
+
   // Start server
   const port = process.env.PORT || 3000;
   await app.listen(port);
