@@ -10,7 +10,7 @@ import {
   CreateDateColumn,
   Index,
 } from "typeorm";
-import { EntityRelationalHelper } from "../../../../../../src/utils/relational-entity-helper";
+import { EntityRelationalHelper } from "../../../../../utils/relational-entity-helper";
 
 export enum AnalyticsEventType {
   PAYMENT_CONFIRMED = "payment_confirmed",

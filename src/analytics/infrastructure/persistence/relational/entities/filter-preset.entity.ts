@@ -11,7 +11,7 @@ import {
   UpdateDateColumn,
   Index,
 } from "typeorm";
-import { EntityRelationalHelper } from "../../../../../../src/utils/relational-entity-helper";
+import { EntityRelationalHelper } from "../../../../../utils/relational-entity-helper";
 
 @Entity({ name: "filter_presets" })
 @Index(["tenant_id", "user_id", "is_public"])

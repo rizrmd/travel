@@ -11,7 +11,7 @@ import {
   Index,
   Unique,
 } from "typeorm";
-import { EntityRelationalHelper } from "../../../../../../src/utils/relational-entity-helper";
+import { EntityRelationalHelper } from "../../../../../utils/relational-entity-helper";
 
 @Entity({ name: "revenue_snapshots" })
 @Index(["tenant_id", "snapshot_date"])
