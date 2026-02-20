@@ -24,6 +24,18 @@ import { ComplianceModule } from "./compliance/compliance.module";
 import { SiskopatuhModule } from "./siskopatuh/siskopatuh.module";
 import { ESignatureModule } from "./esignature/esignature.module";
 
+const typeOrmDatabaseConfig = process.env.DATABASE_URL
+  ? {
+      url: process.env.DATABASE_URL,
+    }
+  : {
+      host: process.env.DATABASE_HOST || "localhost",
+      port: parseInt(process.env.DATABASE_PORT, 10) || 5432,
+      username: process.env.DATABASE_USERNAME || "postgres",
+      password: process.env.DATABASE_PASSWORD,
+      database: process.env.DATABASE_NAME || "travel_umroh",
+    };
+
 /**
  * Main Application Module
  * Bootstraps the Travel Umroh platform with all feature modules
@@ -39,11 +51,7 @@ import { ESignatureModule } from "./esignature/esignature.module";
     // Database
     TypeOrmModule.forRoot({
       type: "postgres",
-      host: process.env.DATABASE_HOST || "localhost",
-      port: parseInt(process.env.DATABASE_PORT, 10) || 5432,
-      username: process.env.DATABASE_USERNAME || "postgres",
-      password: process.env.DATABASE_PASSWORD,
-      database: process.env.DATABASE_NAME || "travel_umroh",
+      ...typeOrmDatabaseConfig,
       entities: [__dirname + "/**/*.entity{.ts,.js}"],
       migrations: [__dirname + "/database/migrations/*{.ts,.js}"],
       synchronize: false, // Always use migrations in production

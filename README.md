@@ -19,9 +19,9 @@ npm run migration:run
 npm run start:dev
 ```
 
-## 🌍 Local Offline Testing (Recommended)
+## 🌍 Local Testing
 
-Run the entire stack (Database, Redis, Backend, Frontend) with a single command:
+Run backend + frontend locally using external PostgreSQL and Redis:
 
 ```bash
 # Make script executable (first time only)
@@ -31,12 +31,25 @@ chmod +x start-local.sh
 ./start-local.sh
 ```
 
-Requirements: Docker and Docker Compose must be installed.
+Requirements: external PostgreSQL and Redis must be running and reachable.
 This script will:
-1. Start Postgres & Redis in Docker
+1. Use PostgreSQL & Redis from your `.env`
 2. Run Database Migrations
 3. Start the Backend API
 4. Start the Frontend Application
+
+## 🐳 Docker (Backend Only)
+
+This repository now uses a single `Dockerfile` for backend deployment.
+PostgreSQL and Redis must be provided externally.
+
+```bash
+# Build backend image
+docker build -t travel-umroh-backend .
+
+# Run backend with external DB/Redis configuration
+docker run --rm -p 3001:3001 --env-file .env.docker travel-umroh-backend
+```
 
 
 ## 📚 API Documentation
@@ -144,11 +157,7 @@ Copy `.env.example` to `.env` and configure:
 
 ```env
 # Database
-DATABASE_HOST=localhost
-DATABASE_PORT=5432
-DATABASE_USERNAME=postgres
-DATABASE_PASSWORD=your_password
-DATABASE_NAME=travel_umroh
+DATABASE_URL=postgresql://postgres:your_password@localhost:5432/travel_umroh
 
 # JWT
 JWT_SECRET=your-secret-key
