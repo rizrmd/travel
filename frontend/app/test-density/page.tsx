@@ -21,8 +21,6 @@ export default function TestDensityPage() {
 
   return (
     <AppLayout
-      userName="Test User"
-      userRole="Tester"
       breadcrumbs={[{ label: "Test Density Mode", isCurrentPage: true }]}
     >
       <div className="space-y-24">

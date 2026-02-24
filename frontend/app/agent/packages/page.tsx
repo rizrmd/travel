@@ -59,9 +59,6 @@ export default function AgentPackagesPage() {
 
   return (
     <AppLayout
-      menuItems={agentMenuItems}
-      userName="Ibu Siti"
-      userRole="Agent"
       breadcrumbs={[
         { label: "Paket Tersedia", href: "/agent/packages", isCurrentPage: true },
       ]}

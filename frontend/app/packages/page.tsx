@@ -99,9 +99,6 @@ export default function PackagesPage() {
 
   return (
     <AppLayout
-      menuItems={adminMenuItems}
-      userName="Mbak Rina"
-      userRole="Admin Travel"
       notificationCount={3}
       breadcrumbs={[
         { label: "Paket Umroh", href: "/packages", isCurrentPage: true },

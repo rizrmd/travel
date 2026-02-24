@@ -220,8 +220,6 @@ export default function JamaahPage() {
 
   return (
     <AppLayout
-      userName="Ahmad Fauzi"
-      userRole="Agen Travel"
       notificationCount={3}
       breadcrumbs={[
         { label: "Jamaah", href: "/jamaah", isCurrentPage: true },

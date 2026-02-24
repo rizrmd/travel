@@ -34,8 +34,6 @@ import { cn } from "@/lib/utils"
 export default function AnalyticsDensityPage() {
   return (
     <AppLayout
-      userName="Owner Travel"
-      userRole="Pemilik Usaha"
       notificationCount={5}
       breadcrumbs={[
         { label: "Dashboard", href: "/owner" },

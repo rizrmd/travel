@@ -25,8 +25,6 @@ import { toast } from "@/lib/utils/toast"
 export default function AnalyticsPage() {
   return (
     <AppLayout
-      userName="Owner Travel"
-      userRole="Pemilik Usaha"
       notificationCount={5}
       breadcrumbs={[
         { label: "Dashboard", href: "/owner" },

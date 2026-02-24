@@ -108,8 +108,6 @@ export default function OwnerAgentsPage() {
         { label: 'Owner Dashboard', href: '/owner/dashboard' },
         { label: 'Agent Performance', href: '/owner/agents' },
       ]}
-      userName="Haji Abdullah Rahman"
-      userRole="Agency Owner"
     >
       {/* Page Header */}
       <div className="mb-24">

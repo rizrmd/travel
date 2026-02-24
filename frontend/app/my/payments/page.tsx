@@ -66,7 +66,6 @@ export default function PaymentsPage() {
 
   return (
     <AppLayout
-      userRole="jamaah"
     >
       {/* Payment Summary */}
       <Card className="mb-6">

@@ -86,8 +86,6 @@ export default function AnalyticsPage() {
 
   return (
     <AppLayout
-      userName="System Administrator"
-      userRole="Super Admin"
       breadcrumbs={[
         { label: 'Super Admin', href: '/super-admin' },
         { label: 'Platform Analytics' },

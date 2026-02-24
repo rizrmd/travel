@@ -59,9 +59,6 @@ export default function OwnerDashboardPage() {
       breadcrumbs={[
         { label: 'Owner Dashboard', href: '/owner/dashboard' },
       ]}
-      menuItems={ownerMenuItems}
-      userName="Haji Abdullah Rahman"
-      userRole="Agency Owner"
     >
       {/* Page Header */}
       <div className="mb-24">

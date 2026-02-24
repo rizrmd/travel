@@ -29,7 +29,7 @@ import { SidebarMenuItem } from "@/components/navigation/sidebar-nav"
 export const adminMenuItems: SidebarMenuItem[] = [
   {
     id: "dashboard",
-    label: "Dashboard",
+    label: "Beranda",
     href: "/dashboard",
     icon: Home,
   },
@@ -62,25 +62,7 @@ export const adminMenuItems: SidebarMenuItem[] = [
     label: "Paket",
     href: "/packages",
     icon: Package,
-  },
-  {
-    id: "agents",
-    label: "Agen",
-    href: "/agents",
-    icon: UserCircle,
-  },
-  {
-    id: "reports",
-    label: "Laporan",
-    href: "/reports",
-    icon: BarChart3,
-  },
-  {
-    id: "settings",
-    label: "Pengaturan",
-    href: "/settings",
-    icon: Settings,
-  },
+  }
 ]
 
 /**
@@ -89,7 +71,7 @@ export const adminMenuItems: SidebarMenuItem[] = [
 export const agentMenuItems: SidebarMenuItem[] = [
   {
     id: "my-jamaah",
-    label: "My Jamaah",
+    label: "Jamaah Saya",
     href: "/agent/my-jamaah",
     icon: Users,
   },
@@ -131,7 +113,7 @@ export const agentMenuItems: SidebarMenuItem[] = [
 export const jamaahMenuItems: SidebarMenuItem[] = [
   {
     id: "dashboard",
-    label: "Dashboard",
+    label: "Beranda",
     href: "/my/dashboard",
     icon: Home,
   },
@@ -173,14 +155,20 @@ export const jamaahMenuItems: SidebarMenuItem[] = [
 export const ownerMenuItems: SidebarMenuItem[] = [
   {
     id: "dashboard",
-    label: "Dashboard",
+    label: "Beranda",
     href: "/owner/dashboard",
     icon: Home,
   },
   {
+    id: "operational",
+    label: "Operasional",
+    href: "/dashboard",
+    icon: Activity,
+  },
+  {
     id: "agents",
-    label: "Performa Agen",
-    href: "/owner/agents",
+    label: "Manajemen Agen",
+    href: "/agents",
     icon: UserCircle,
   },
   {
@@ -197,9 +185,75 @@ export const ownerMenuItems: SidebarMenuItem[] = [
   },
   {
     id: "settings",
-    label: "Pengaturan",
-    href: "/owner/settings",
+    label: "Pengaturan Platform",
+    href: "/settings",
     icon: Settings,
+  },
+]
+
+/**
+ * Affiliate Portal Menu Items
+ */
+export const affiliateMenuItems: SidebarMenuItem[] = [
+  {
+    id: "dashboard",
+    label: "Beranda",
+    href: "/affiliate/dashboard",
+    icon: Home,
+  },
+  {
+    id: "jamaah",
+    label: "Jamaah Referensi",
+    href: "/affiliate/jamaah",
+    icon: Users,
+  },
+  {
+    id: "packages",
+    label: "Paket Tersedia",
+    href: "/affiliate/packages",
+    icon: Package,
+  },
+  {
+    id: "komisi",
+    label: "Komisi",
+    href: "/affiliate/komisi",
+    icon: DollarSign,
+  },
+  {
+    id: "links",
+    label: "Link Afiliasi",
+    href: "/affiliate/links",
+    icon: Layout,
+  },
+]
+
+/**
+ * Family Portal Menu Items
+ */
+export const familyMenuItems: SidebarMenuItem[] = [
+  {
+    id: "dashboard",
+    label: "Family Portal",
+    href: "/family/dashboard",
+    icon: Home,
+  },
+  {
+    id: "tracking",
+    label: "Tracking Jamaah",
+    href: "/family/tracking",
+    icon: Activity,
+  },
+  {
+    id: "documents",
+    label: "Dokumen Keluarga",
+    href: "/family/documents",
+    icon: FileText,
+  },
+  {
+    id: "itinerary",
+    label: "Jadwal & Paket",
+    href: "/family/itinerary",
+    icon: BookOpen,
   },
 ]
 
@@ -215,7 +269,7 @@ export const superAdminMenuItems: SidebarMenuItem[] = [
   },
   {
     id: "monitoring",
-    label: "Monitoring",
+    label: "Pemantauan",
     href: "/super-admin/monitoring",
     icon: Activity,
   },
@@ -233,7 +287,7 @@ export const superAdminMenuItems: SidebarMenuItem[] = [
   },
   {
     id: "analytics",
-    label: "Analytics",
+    label: "Analisis",
     href: "/super-admin/analytics",
     icon: BarChart3,
   },

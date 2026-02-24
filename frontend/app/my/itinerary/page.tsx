@@ -36,7 +36,6 @@ export default function ItineraryPage() {
 
   return (
     <AppLayout
-      userRole="jamaah"
     >
       {/* Package Overview */}
       <Card className="mb-6">

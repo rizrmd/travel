@@ -218,8 +218,6 @@ export default function DokumenPage() {
 
   return (
     <AppLayout
-      userName="Ahmad Fauzi"
-      userRole="Agen Travel"
       notificationCount={3}
       breadcrumbs={[
         { label: "Dokumen", href: "/dokumen", isCurrentPage: true },

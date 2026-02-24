@@ -138,8 +138,6 @@ export default function CreateLandingPage() {
         { label: 'Landing Builder', href: '/agent/landing-builder' },
         { label: 'Buat Landing Page', href: '/agent/landing-builder/create' },
       ]}
-      userName={agentProfile.name}
-      userRole={agentProfile.role}
       maxWidth="6xl"
     >
       {/* Header */}

@@ -16,6 +16,7 @@ import {
   Activity
 } from "@/lib/data/mock-dashboard"
 import { adminMenuItems } from "@/lib/navigation/menu-items"
+import { useAuth } from "@/hooks/use-auth"
 import { toast } from "sonner"
 
 function getGreeting() {
@@ -43,7 +44,22 @@ function ActivityIcon({ type }: { type: Activity['type'] }) {
   }
 }
 
+function getActivityLink(type: Activity['type']): string {
+  switch (type) {
+    case 'jamaah_added':
+    case 'jamaah_completed':
+      return '/jamaah'
+    case 'document_uploaded':
+      return '/dokumen'
+    case 'payment_received':
+      return '/payments'
+    default:
+      return '/dashboard'
+  }
+}
+
 export default function DashboardPage() {
+  const { userName } = useAuth()
   const kpis = useMemo(() => mockDashboardKPIs, [])
   const activities = useMemo(() => mockRecentActivities, [])
 
@@ -66,13 +82,10 @@ export default function DashboardPage() {
 
   return (
     <AppLayout
-      userName="Mbak Rina"
-      userRole="Admin Travel"
       notificationCount={3}
       breadcrumbs={[
         { label: "Dashboard", href: "/dashboard", isCurrentPage: true },
       ]}
-      menuItems={adminMenuItems}
       onNotificationClick={handleNotificationClick}
       onProfileClick={handleProfileClick}
       onSettingsClick={handleSettingsClick}
@@ -82,7 +95,7 @@ export default function DashboardPage() {
         {/* Header with Greeting */}
         <div>
           <h1 className="text-2xl md:text-3xl font-display font-bold text-slate-900">
-            {getGreeting()}, Mbak Rina!
+            {getGreeting()}, {userName}!
           </h1>
           <p className="mt-8 text-slate-600">
             Berikut ringkasan bisnis umroh Anda hari ini
@@ -251,29 +264,32 @@ export default function DashboardPage() {
             <CardContent>
               <div className="space-y-16">
                 {activities.map((activity) => (
-                  <div
+                  <Link
+                    href={getActivityLink(activity.type)}
                     key={activity.id}
-                    className="flex items-start gap-12 pb-16 border-b border-slate-100 last:border-0 last:pb-0"
+                    className="group block p-3 -mx-3 rounded-lg hover:bg-slate-50 transition-colors border-b border-slate-100 last:border-0"
                   >
-                    <div className="flex-shrink-0 w-[32px] h-[32px] rounded-full bg-slate-100 flex items-center justify-center">
-                      <ActivityIcon type={activity.type} />
-                    </div>
-                    <div className="flex-1 min-w-0">
-                      <div className="flex items-start justify-between gap-8">
-                        <div className="flex-1">
-                          <p className="text-sm font-medium text-slate-900">
-                            {activity.title}
-                          </p>
-                          <p className="text-sm text-slate-600 mt-2">
-                            {activity.description}
-                          </p>
+                    <div className="flex items-start gap-12">
+                      <div className="flex-shrink-0 w-[32px] h-[32px] rounded-full bg-slate-100 flex items-center justify-center">
+                        <ActivityIcon type={activity.type} />
+                      </div>
+                      <div className="flex-1 min-w-0">
+                        <div className="flex items-start justify-between gap-8">
+                          <div className="flex-1">
+                            <p className="text-sm font-medium text-slate-900 group-hover:text-blue-600 transition-colors">
+                              {activity.title}
+                            </p>
+                            <p className="text-sm text-slate-600 mt-1">
+                              {activity.description}
+                            </p>
+                          </div>
+                          <Badge variant="outline" className="text-xs text-slate-500 flex-shrink-0 group-hover:border-blue-200 group-hover:bg-blue-50 transition-colors">
+                            {formatRelativeTime(activity.timestamp)}
+                          </Badge>
                         </div>
-                        <Badge variant="outline" className="text-xs text-slate-500 flex-shrink-0">
-                          {formatRelativeTime(activity.timestamp)}
-                        </Badge>
                       </div>
                     </div>
-                  </div>
+                  </Link>
                 ))}
               </div>
 

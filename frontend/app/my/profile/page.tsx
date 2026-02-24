@@ -79,7 +79,6 @@ export default function ProfilePage() {
 
   return (
     <AppLayout
-      userRole="jamaah"
     >
       {/* Profile Photo */}
       <Card className="mb-6">

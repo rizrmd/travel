@@ -74,6 +74,16 @@ const nextConfig = {
   },
   // Support both standalone server mode and static export mode.
   output: process.env.FRONTEND_EXPORT === 'true' ? 'export' : 'standalone',
+
+  // Proxy API requests to the backend during development
+  async rewrites() {
+    return [
+      {
+        source: '/api/:path*',
+        destination: 'http://localhost:3000/api/:path*',
+      },
+    ];
+  },
 };
 
 export default nextConfig;

@@ -42,8 +42,6 @@ export default function LandingBuilderPage() {
 
   return (
     <AppLayout
-      userName="Agent Travel"
-      userRole="Travel Agent"
       notificationCount={3}
       breadcrumbs={[
         { label: "Dashboard", href: "/agent" },

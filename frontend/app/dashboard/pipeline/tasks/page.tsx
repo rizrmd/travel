@@ -170,14 +170,11 @@ export default function PipelineTasksPage() {
 
   return (
     <AppLayout
-      userName="Mbak Rina"
-      userRole="Admin Operations"
       breadcrumbs={[
         { label: "Dashboard", href: "/dashboard" },
         { label: "Pipeline", href: "/dashboard/pipeline" },
         { label: "Task Queue", href: "/dashboard/pipeline/tasks", isCurrentPage: true },
       ]}
-      menuItems={adminMenuItems}
     >
       <div className="space-y-24">
         {/* Header */}

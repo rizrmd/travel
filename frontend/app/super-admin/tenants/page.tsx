@@ -116,13 +116,10 @@ export default function TenantManagementPage() {
 
   return (
     <AppLayout
-      userName="System Administrator"
-      userRole="Super Admin"
       breadcrumbs={[
         { label: 'Super Admin', href: '/super-admin' },
         { label: 'Tenant Management' },
       ]}
-      menuItems={superAdminMenuItems}
     >
       <div className="space-y-24">
         {/* Header */}

@@ -72,13 +72,10 @@ export default function PipelinePage() {
 
   return (
     <AppLayout
-      userName="Mbak Rina"
-      userRole="Manager Operations"
       breadcrumbs={[
         { label: "Dashboard", href: "/dashboard" },
         { label: "Pipeline Overview", href: "/dashboard/pipeline", isCurrentPage: true },
       ]}
-      menuItems={adminMenuItems}
     >
       <div className="space-y-32">
         {/* Header */}

@@ -139,9 +139,6 @@ export default function EditPackagePage() {
 
   return (
     <AppLayout
-      menuItems={adminMenuItems}
-      userName="Mbak Rina"
-      userRole="Admin Travel"
       breadcrumbs={[
         { label: "Paket Umroh", href: "/packages" },
         { label: packageData.name, href: `/packages/${packageId}`, isCurrentPage: true },

@@ -36,8 +36,6 @@ export default function JamaahDashboardPage() {
 
   return (
     <AppLayout
-      userRole="jamaah"
-      menuItems={jamaahMenuItems}
     >
       {/* Welcome Section */}
       <div className="bg-gradient-to-r from-emerald-600 to-emerald-700 rounded-lg p-6 md:p-8 text-white mb-6">

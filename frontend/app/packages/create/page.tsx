@@ -110,9 +110,6 @@ export default function CreatePackagePage() {
 
   return (
     <AppLayout
-      menuItems={adminMenuItems}
-      userName="Mbak Rina"
-      userRole="Admin Travel"
       breadcrumbs={[
         { label: "Paket Umroh", href: "/packages" },
         { label: "Buat Paket Baru", href: "/packages/create", isCurrentPage: true },

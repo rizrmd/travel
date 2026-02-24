@@ -175,8 +175,6 @@ export default function PaymentsPage() {
 
   return (
     <AppLayout
-      userName="Mbak Rina"
-      userRole="Admin Travel"
       notificationCount={3}
       breadcrumbs={[
         { label: "Pembayaran", href: "/payments", isCurrentPage: true },

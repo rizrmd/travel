@@ -117,8 +117,6 @@ export default function UploadDokumenPage() {
         { label: 'My Jamaah', href: '/agent/my-jamaah' },
         { label: 'Upload Dokumen', href: '/agent/upload-dokumen' },
       ]}
-      userName={agentProfile.name}
-      userRole={agentProfile.role}
       maxWidth="4xl"
     >
       {/* Page Header */}

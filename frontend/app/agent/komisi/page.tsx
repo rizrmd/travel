@@ -83,8 +83,6 @@ export default function KomisiPage() {
       breadcrumbs={[
         { label: 'Komisi', href: '/agent/komisi' },
       ]}
-      userName={agentProfile.name}
-      userRole={agentProfile.role}
     >
       {/* Page Header */}
       <div className="mb-32">

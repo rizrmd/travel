@@ -72,8 +72,6 @@ export default function OwnerSettingsPage() {
         { label: 'Owner Dashboard', href: '/owner/dashboard' },
         { label: 'Settings', href: '/owner/settings' },
       ]}
-      userName="Haji Abdullah Rahman"
-      userRole="Agency Owner"
     >
       {/* Page Header */}
       <div className="mb-24">

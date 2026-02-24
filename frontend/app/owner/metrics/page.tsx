@@ -31,8 +31,6 @@ export default function OwnerMetricsPage() {
         { label: 'Owner Dashboard', href: '/owner/dashboard' },
         { label: 'Strategic Metrics', href: '/owner/metrics' },
       ]}
-      userName="Haji Abdullah Rahman"
-      userRole="Agency Owner"
     >
       {/* Page Header */}
       <div className="mb-24">

@@ -25,7 +25,7 @@ import { Public } from "./decorators/public.decorator";
 @ApiTags("Authentication")
 @Controller("auth")
 export class AuthController {
-  constructor(private readonly authService: AuthService) {}
+  constructor(private readonly authService: AuthService) { }
 
   /**
    * User login
@@ -62,7 +62,7 @@ export class AuthController {
 
     return await this.authService.login(
       loginDto,
-      tenantId || "default-tenant-id",
+      tenantId || "00000000-0000-0000-0000-000000000000",
       ip,
       userAgent,
     );
@@ -95,7 +95,7 @@ export class AuthController {
 
     return await this.authService.register(
       registerDto,
-      tenantId || "default-tenant-id",
+      tenantId || "00000000-0000-0000-0000-000000000000",
     );
   }
 

@@ -195,8 +195,6 @@ export default function LeadsPage() {
       breadcrumbs={[
         { label: 'Leads', href: '/agent/leads' },
       ]}
-      userName={agentProfile.name}
-      userRole={agentProfile.role}
     >
       {/* Page Header */}
       <div className="mb-24">

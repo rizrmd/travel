@@ -65,4 +65,4 @@ echo -e "${GREEN}✅ Environment Ready!${NC}"
 echo -e "${GREEN}Backend: http://localhost:3000/api${NC}"
 echo -e "${GREEN}Frontend: Starting now...${NC}"
 
-PORT=3001 npm run dev
+PORT=3002 npm run dev

@@ -47,8 +47,6 @@ export default function JamaahDetailPage() {
   if (!jamaah) {
     return (
       <AppLayout
-        userName={agentProfile.name}
-        userRole={agentProfile.role}
       >
         <div className="text-center py-48">
           <p className="text-body text-slate-500">Jamaah tidak ditemukan</p>
@@ -99,8 +97,6 @@ export default function JamaahDetailPage() {
         { label: 'My Jamaah', href: '/agent/my-jamaah' },
         { label: jamaah.name, href: `/agent/jamaah/${jamaahId}` },
       ]}
-      userName={agentProfile.name}
-      userRole={agentProfile.role}
       maxWidth="6xl"
     >
       {/* Back Button */}

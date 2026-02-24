@@ -105,7 +105,11 @@ export function SidebarNav({
         <ul className="space-y-1">
           {menuItems.map((item) => {
             const Icon = item.icon
-            const isActive = pathname === item.href || pathname?.startsWith(item.href + "/")
+            // Special handling to prevent root-level menu items from overlapping with nested sub-pages
+            const isRootRoute = item.href === '/dashboard' || item.href === '/my/dashboard' || item.href === '/owner/dashboard' || item.href === '/agent/my-jamaah' || item.href === '/super-admin/tenants' || item.href === '/affiliate/dashboard' || item.href === '/family/dashboard';
+            const isActive = isRootRoute
+              ? pathname === item.href
+              : pathname === item.href || pathname?.startsWith(item.href + "/");
 
             return (
               <li key={item.id}>

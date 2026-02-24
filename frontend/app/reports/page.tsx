@@ -71,8 +71,6 @@ export default function ReportsPage() {
 
   return (
     <AppLayout
-      userName="Mbak Rina"
-      userRole="Admin Travel"
       notificationCount={3}
       breadcrumbs={[
         { label: "Reports", href: "/reports", isCurrentPage: true },

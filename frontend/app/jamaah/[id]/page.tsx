@@ -1,7 +1,7 @@
 "use client"
 
 import Link from "next/link"
-import { useParams } from "next/navigation"
+import { useParams, useRouter } from "next/navigation"
 import { ArrowLeft, Edit, FileText, DollarSign, Clock, CheckCircle, XCircle } from "lucide-react"
 import { AppLayout } from "@/components/layout/app-layout"
 import { Button } from "@/components/ui/button"
@@ -65,6 +65,7 @@ function DocumentStatusBadge({ status }: { status: 'complete' | 'pending' | 'inc
 
 export default function JamaahDetailPage() {
   const params = useParams<{ id: string }>()
+  const router = useRouter()
   const id = params.id
   const jamaah = mockJamaah.find((j) => j.id === id)
 
@@ -86,14 +87,12 @@ export default function JamaahDetailPage() {
   }
 
   const handleEdit = () => {
-    toast.info('Fitur edit jamaah segera hadir')
+    router.push(`/jamaah/${id}/edit`)
   }
 
   if (!jamaah) {
     return (
       <AppLayout
-        userName="Mbak Rina"
-        userRole="Admin Travel"
         notificationCount={3}
         breadcrumbs={[
           { label: "Jamaah", href: "/jamaah" },
@@ -122,8 +121,6 @@ export default function JamaahDetailPage() {
 
   return (
     <AppLayout
-      userName="Mbak Rina"
-      userRole="Admin Travel"
       notificationCount={3}
       breadcrumbs={[
         { label: "Jamaah", href: "/jamaah" },

@@ -182,7 +182,6 @@ export default function NotificationsPage() {
 
   return (
     <AppLayout
-      userRole="jamaah"
     >
       {/* Statistics */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">

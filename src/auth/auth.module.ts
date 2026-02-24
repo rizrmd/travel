@@ -8,10 +8,11 @@ import { AuthService } from "./auth.service";
 import { JwtStrategy } from "./strategies/jwt.strategy";
 import { UserEntity } from "../users/entities/user.entity";
 import { SessionEntity } from "./entities/session.entity";
+import { TenantEntity } from "../tenants/entities/tenant.entity";
 
 @Module({
   imports: [
-    TypeOrmModule.forFeature([UserEntity, SessionEntity]),
+    TypeOrmModule.forFeature([UserEntity, SessionEntity, TenantEntity]),
     PassportModule,
     JwtModule.registerAsync({
       imports: [ConfigModule],
@@ -28,4 +29,4 @@ import { SessionEntity } from "./entities/session.entity";
   providers: [AuthService, JwtStrategy],
   exports: [AuthService, JwtModule],
 })
-export class AuthModule {}
+export class AuthModule { }

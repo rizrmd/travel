@@ -16,6 +16,7 @@ import {
 } from "@/components/ui/dropdown-menu"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
+import { mockRecentActivities, formatRelativeTime } from "@/lib/data/mock-dashboard"
 
 interface TopNavBarProps {
   userName?: string
@@ -84,24 +85,57 @@ export function TopNavBar({
             {/* Density Toggle */}
             <DensityToggle />
 
-            {/* Notification Button */}
-            <Button
-              variant="ghost"
-              size="sm"
-              onClick={onNotificationClick}
-              className="relative h-9 w-9 p-0"
-              aria-label={`Notifikasi${hasNotifications ? `, ${notificationCount} baru` : ''}`}
-            >
-              <Bell className="h-[20px] w-[20px] text-slate-600" />
-              {hasNotifications && (
-                <Badge
-                  variant="destructive"
-                  className="absolute -top-1 -right-1 h-[16px] min-w-[16px] rounded-full p-0 flex items-center justify-center text-[10px] font-semibold"
+            {/* Notification Menu */}
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  className="relative h-9 w-9 p-0"
+                  aria-label={`Notifikasi${hasNotifications ? `, ${notificationCount} baru` : ''}`}
                 >
-                  {notificationCount > 99 ? '99+' : notificationCount}
-                </Badge>
-              )}
-            </Button>
+                  <Bell className="h-[20px] w-[20px] text-slate-600" />
+                  {hasNotifications && (
+                    <Badge
+                      variant="destructive"
+                      className="absolute -top-1 -right-1 h-[16px] min-w-[16px] rounded-full p-0 flex items-center justify-center text-[10px] font-semibold"
+                    >
+                      {notificationCount > 99 ? '99+' : notificationCount}
+                    </Badge>
+                  )}
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end" className="w-[320px]">
+                <DropdownMenuLabel className="flex items-center justify-between pb-2 border-b">
+                  <span className="font-semibold text-sm">Notifikasi</span>
+                  {hasNotifications && (
+                    <Badge variant="secondary" className="text-xs">
+                      {notificationCount} Baru
+                    </Badge>
+                  )}
+                </DropdownMenuLabel>
+                <div className="max-h-[300px] overflow-y-auto">
+                  {mockRecentActivities.slice(0, 3).map((activity) => (
+                    <DropdownMenuItem key={activity.id} className="cursor-pointer flex flex-col items-start gap-1 p-3 border-b last:border-0" onClick={onNotificationClick}>
+                      <span className="font-medium text-sm text-slate-900">{activity.title}</span>
+                      <span className="text-xs text-slate-600 line-clamp-2">{activity.description}</span>
+                      <span className="text-[10px] text-slate-400 mt-1">{formatRelativeTime(activity.timestamp)}</span>
+                    </DropdownMenuItem>
+                  ))}
+                  {mockRecentActivities.length === 0 && (
+                    <div className="p-4 text-center text-sm text-slate-500">
+                      Tidak ada notifikasi
+                    </div>
+                  )}
+                </div>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem asChild>
+                  <Link href="/dashboard" className="w-full text-center text-xs font-medium text-blue-600 justify-center cursor-pointer">
+                    Lihat Semua Notifikasi
+                  </Link>
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
 
             {/* User Menu */}
             <DropdownMenu>

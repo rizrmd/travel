@@ -144,9 +144,6 @@ export default function MyJamaahPage() {
       breadcrumbs={[
         { label: 'My Jamaah', href: '/agent/my-jamaah' },
       ]}
-      menuItems={agentMenuItems}
-      userName={agentProfile.name}
-      userRole={agentProfile.role}
     >
       {/* Page Header */}
       <div className="mb-24">

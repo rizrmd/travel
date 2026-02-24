@@ -48,7 +48,7 @@ export function JamaahTable({
   }
 
   const handleEdit = (jamaah: Jamaah) => {
-    console.log('Edit jamaah:', jamaah.id)
+    window.location.href = `/jamaah/${jamaah.id}/edit`
   }
 
   const handleRowClick = (jamaah: Jamaah) => {

@@ -127,8 +127,6 @@ export default function MonitoringPage() {
 
   return (
     <AppLayout
-      userName="System Administrator"
-      userRole="Super Admin"
       breadcrumbs={[
         { label: 'Super Admin', href: '/super-admin' },
         { label: 'Cross-Tenant Monitoring' },

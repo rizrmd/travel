@@ -1,5 +1,8 @@
 import { Module, MiddlewareConsumer, NestModule } from "@nestjs/common";
 import { ConfigModule } from "@nestjs/config";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 import { TypeOrmModule } from "@nestjs/typeorm";
 import { RolesModule } from "./roles/roles.module";
 import { WhatsAppModule } from "./whatsapp/whatsapp.module";
@@ -27,15 +30,15 @@ import { TenantEntity } from "./tenants/entities/tenant.entity";
 
 const typeOrmDatabaseConfig = process.env.DATABASE_URL
   ? {
-      url: process.env.DATABASE_URL,
-    }
+    url: process.env.DATABASE_URL,
+  }
   : {
-      host: process.env.DATABASE_HOST || "localhost",
-      port: parseInt(process.env.DATABASE_PORT, 10) || 5432,
-      username: process.env.DATABASE_USERNAME || "postgres",
-      password: process.env.DATABASE_PASSWORD,
-      database: process.env.DATABASE_NAME || "travel_umroh",
-    };
+    host: process.env.DATABASE_HOST || "localhost",
+    port: parseInt(process.env.DATABASE_PORT, 10) || 5432,
+    username: process.env.DATABASE_USERNAME || "postgres",
+    password: process.env.DATABASE_PASSWORD,
+    database: process.env.DATABASE_NAME || "travel_umroh",
+  };
 
 /**
  * Main Application Module

@@ -19,8 +19,10 @@ import {
   TableRow,
 } from "@/components/ui/table"
 import { toast } from "sonner"
+import { useAuth } from "@/hooks/use-auth"
 
 export default function SettingsPage() {
+  const { userName } = useAuth()
   const [agencyName, setAgencyName] = useState("Travel Umroh Berkah")
   const [agencyEmail, setAgencyEmail] = useState("info@berkahtravel.com")
   const [agencyPhone, setAgencyPhone] = useState("021-1234567")
@@ -65,8 +67,6 @@ export default function SettingsPage() {
 
   return (
     <AppLayout
-      userName="Mbak Rina"
-      userRole="Admin Travel"
       notificationCount={3}
       breadcrumbs={[
         { label: "Settings", href: "/settings", isCurrentPage: true },
@@ -381,7 +381,7 @@ export default function SettingsPage() {
                     </TableHeader>
                     <TableBody>
                       <TableRow>
-                        <TableCell className="font-medium">Mbak Rina</TableCell>
+                        <TableCell className="font-medium">{userName}</TableCell>
                         <TableCell>rina@berkahtravel.com</TableCell>
                         <TableCell>Super Admin</TableCell>
                         <TableCell>

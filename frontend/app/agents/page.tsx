@@ -106,8 +106,6 @@ export default function AgentsPage() {
 
   return (
     <AppLayout
-      userName="Mbak Rina"
-      userRole="Admin Travel"
       notificationCount={3}
       breadcrumbs={[
         { label: "Agent", href: "/agents", isCurrentPage: true },

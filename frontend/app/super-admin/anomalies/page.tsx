@@ -140,8 +140,6 @@ export default function AnomaliesPage() {
 
   return (
     <AppLayout
-      userName="System Administrator"
-      userRole="Super Admin"
       breadcrumbs={[
         { label: 'Super Admin', href: '/super-admin' },
         { label: 'Anomaly Detection' },
